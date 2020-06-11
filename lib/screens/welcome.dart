@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:social/constants.dart';
-import 'package:social/helpers/AuthenticationAnimations.dart';
 import 'package:social/screens/login.dart';
 import 'package:social/screens/register.dart';
 import 'package:social/widgets/button.dart';
@@ -11,19 +10,10 @@ class Welcome extends StatefulWidget {
   _WelcomeState createState() => _WelcomeState();
 }
 
-class _WelcomeState extends State<Welcome> with TickerProviderStateMixin {
-  AuthenticationAnimations animations;
-  int counter = 0;
+class _WelcomeState extends State<Welcome> {
   @override
   initState() {
     super.initState();
-    animations = AuthenticationAnimations(
-      mixin: this,
-      onTextSizeChanged: () {
-        setState(() {});
-      },
-    );
-    animations.init();
   }
 
   @override
@@ -37,14 +27,10 @@ class _WelcomeState extends State<Welcome> with TickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  RotationTransition(
-                    turns: Tween(begin: 0.0, end: 1.0)
-                        .animate(animations.rotationController),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Image.asset('assets/appstore.png'),
-                      radius: 30,
-                    ),
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset('assets/appstore.png'),
+                    radius: 30,
                   ),
                   SizedBox(
                     width: 20,
@@ -52,7 +38,8 @@ class _WelcomeState extends State<Welcome> with TickerProviderStateMixin {
                   Text(
                     'Social',
                     style: TextStyle(
-                        fontSize: animations.textController.value, fontFamily: 'Mont'),
+                        fontSize: 40,
+                        fontFamily: 'Mont'),
                   ),
                 ],
               ),
@@ -73,20 +60,21 @@ class _WelcomeState extends State<Welcome> with TickerProviderStateMixin {
                           text: 'Register',
                           onPress: () {
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Register()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Register()),
+                            );
                           },
                         ),
                       ),
                       Button(
                         color: mediumBlue,
-                        text: 'Login',
+                        text: 'Loin',
                         onPress: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Login()));
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
                         },
                       )
                     ],

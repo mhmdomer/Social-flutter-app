@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:social/constants.dart';
 import 'package:social/screens/home.dart';
 import 'package:social/screens/login.dart';
-import 'package:social/screens/posts.dart';
 import 'package:social/widgets/button.dart';
 import 'package:social/widgets/curved_painter.dart';
 

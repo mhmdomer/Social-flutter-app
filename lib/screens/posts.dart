@@ -8,8 +8,15 @@ class PostsPage extends StatefulWidget {
 class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      
+    return Container(
+      child: Center(
+        child: FlatButton(
+          child: Text('move'),
+          onPressed: () {
+            Navigator.pushNamed(context, '/post', arguments: 'post arguments');
+          },
+        ),
+      ),
     );
   }
 }

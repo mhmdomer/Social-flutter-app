@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social/constants.dart';
-import 'package:social/screens/welcome.dart';
+import 'package:social/screens/home.dart';
 
 void main() {
   runApp(
@@ -12,7 +12,7 @@ void main() {
         cardColor: cornflowerBlue,
         buttonColor: cornflowerBlue,
       ),
-      home: Welcome(),
+      home: HomePage(),
     ),
   );
 }

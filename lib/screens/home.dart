@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social/constants.dart';
 import 'package:social/screens/notifications.dart';
 import 'package:social/screens/posts_navigator.dart';
 import 'package:social/screens/profile.dart';
@@ -87,6 +88,6 @@ class _HomePageState extends State<HomePage> {
 
 
   Color _getColor(item) {
-    return item == _currentTab ? Colors.blue : Colors.grey;
+    return item == _currentTab ? cornflowerBlue: Colors.grey;
   }
 }

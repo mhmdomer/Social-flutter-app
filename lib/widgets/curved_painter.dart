@@ -10,7 +10,7 @@ class CurvedPainter extends CustomPainter {
     final width = size.width;
     final height = size.height;
     final path = Path();
-    final paint = Paint()..color = grayBlue;
+    final paint = Paint()..color = greyBlue;
     path.moveTo(0, height * curve);
     path.quadraticBezierTo(width/2, 0, width, height * curve);
     path.lineTo(width, height);

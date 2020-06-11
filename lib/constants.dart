@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const mediumBlue = Color(0xFF2D1DC0);
 const cornflowerBlue = Color(0xFF758BFD);
 const morningBlue = Color(0xFF8AA399);
-const grayBlue = Color(0xFFD5DFE5);
+const greyBlue = Color(0xFFD5DFE5);
 const onyx = Color(0xFF393D3F);
 
 

@@ -8,7 +8,7 @@ void main() {
       theme: ThemeData(
         primaryColor: mediumBlue,
         accentColor: cornflowerBlue,
-        backgroundColor: grayBlue,
+        backgroundColor: greyBlue,
         cardColor: cornflowerBlue,
         buttonColor: cornflowerBlue,
       ),

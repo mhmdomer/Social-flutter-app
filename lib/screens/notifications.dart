@@ -18,11 +18,11 @@ class NotificationsPage extends StatelessWidget {
       child: ListView(
         controller: _scrollController,
         children: <Widget>[
-          NotificationItem(),
-          NotificationItem(),
-          NotificationItem(),
-          NotificationItem(),
-          NotificationItem(),
+          NotificationItem(type: NotificationType.commentedOnYourPost),
+          NotificationItem(type: NotificationType.likedYourComment),
+          NotificationItem(type: NotificationType.likedYourPost),
+          NotificationItem(type: NotificationType.likedYourComment),
+          NotificationItem(type: NotificationType.commentedOnYourPost),
         ],
       ),
     );

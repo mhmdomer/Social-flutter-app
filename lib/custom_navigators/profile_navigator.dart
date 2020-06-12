@@ -17,6 +17,7 @@ class ProfileNavigator extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => ProfilePage());
             break;
           default:
+            return MaterialPageRoute(builder: (_) => ProfilePage());
             break;
         }
       },

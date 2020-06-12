@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
                       children: <Widget>[
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          child: Image.asset('assets/appstore.png'),
+                          child: Image.asset('assets/app_store.png'),
                           radius: 30,
                         ),
                         SizedBox(
@@ -117,6 +117,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-    ;
   }
 }

@@ -17,6 +17,7 @@ class NotificationsNavigator extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => NotificationsPage());
             break;
           default:
+            return MaterialPageRoute(builder: (_) => NotificationsPage());
             break;
         }
       },

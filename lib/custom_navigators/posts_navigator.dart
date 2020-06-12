@@ -21,6 +21,7 @@ class PostsNavigator extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => PostDetails());
             break;
           default:
+            return MaterialPageRoute(builder: (_) => PostsPage());
             break;
         }
       },

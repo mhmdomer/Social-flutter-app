@@ -51,8 +51,6 @@ class PostItem extends StatelessWidget {
             ),
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-                  // topLeft: Radius.circular(15),
-                  // bottomLeft: Radius.circular(15)),
               child: Image.asset('assets/${post['image']}'),
             ),
             Padding(

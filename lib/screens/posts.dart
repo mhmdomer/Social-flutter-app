@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social/constants.dart';
 import 'package:social/widgets/post.dart';
 
 class PostsPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class _PostsPageState extends State<PostsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        tooltip: 'Add post',
+        backgroundColor: mediumBlue,
         child: Icon(Icons.add),
         onPressed: () => Navigator.pushNamed(context, '/post'),
       ),

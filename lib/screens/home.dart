@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
+import 'package:social/helpers/scroll_animator.dart';
 import 'package:social/screens/notifications.dart';
 import 'package:social/screens/posts_navigator.dart';
 import 'package:social/screens/profile.dart';
+import 'package:social/widgets/bottom_navigation.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,15 +12,23 @@ class HomePage extends StatefulWidget {
 
 enum TabItem { posts, notifications, profile }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   TabItem _currentTab = TabItem.posts;
   Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItem.posts: GlobalKey<NavigatorState>(),
     TabItem.notifications: GlobalKey<NavigatorState>(),
     TabItem.profile: GlobalKey<NavigatorState>(),
   };
+  ScrollAnimator scrollAnimator;
+  @override
+  initState() {
+    super.initState();
+    scrollAnimator = ScrollAnimator(ticker: this);
+    scrollAnimator.init();
+  }
 
-  void _selectTab(TabItem tabItem) {
+  void _selectTab(index) {
+    TabItem tabItem = TabItem.values[index];
     if (tabItem == _currentTab) {
       // pop to first route
       _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
@@ -28,66 +37,55 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    final isFirstRouteInCurrentTab =
+        !await _navigatorKeys[_currentTab].currentState.maybePop();
+    print(isFirstRouteInCurrentTab);
+    if (isFirstRouteInCurrentTab) {
+      // if not on the 'main' tab
+      if (_currentTab != TabItem.posts) {
+        // select 'main' tab
+        _selectTab(TabItem.posts);
+        // back button handled by app
+        return false;
+      }
+    }
+    // let system handle back button if we're on the first route
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_currentTab].currentState.maybePop();
-        print(isFirstRouteInCurrentTab);
-        if (isFirstRouteInCurrentTab) {
-          // if not on the 'main' tab
-          if (_currentTab != TabItem.posts) {
-            // select 'main' tab
-            _selectTab(TabItem.posts);
-            // back button handled by app
-            return false;
-          }
-        }
-        // let system handle back button if we're on the first route
-        return false;
-      },
-      child: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) {
-              _selectTab(TabItem.values[index]);
-          },
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.photo_size_select_actual, color: _getColor(TabItem.posts)),
-              title: Text('Posts', style: TextStyle(color: _getColor(TabItem.posts))),
+      onWillPop: _onWillPop,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: scrollAnimator.handleScrollNotification,
+        child: Scaffold(
+          bottomNavigationBar: SizeTransition(
+            sizeFactor: scrollAnimator.getAnimator(),
+            axisAlignment: -1.0,
+            child: BottomNavigation(
+              currentTab: _currentTab,
+              onTap: _selectTab,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_active, color: _getColor(TabItem.notifications)),
-              title: Text('Notifications', style: TextStyle(color: _getColor(TabItem.notifications))),
+          ),
+          body: Stack(children: [
+            Offstage(
+              offstage: _currentTab != TabItem.posts,
+              child:
+                  PostsNavigator(navigatorKey: _navigatorKeys[TabItem.posts]),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: _getColor(TabItem.profile)),
-              title: Text('Profile', style: TextStyle(color: _getColor(TabItem.profile))),
+            Offstage(
+              offstage: _currentTab != TabItem.notifications,
+              child: NotificationsPage(),
             ),
-          ],
+            Offstage(
+              offstage: _currentTab != TabItem.profile,
+              child: ProfilePage(),
+            ),
+          ]),
         ),
-        body: Stack(children: [
-          Offstage(
-            offstage: _currentTab != TabItem.posts,
-            child: PostsNavigator(navigatorKey: _navigatorKeys[TabItem.posts]),
-          ),
-          Offstage(
-            offstage: _currentTab != TabItem.notifications,
-            child: NotificationsPage(),
-          ),
-          Offstage(
-            offstage: _currentTab != TabItem.profile,
-            child: ProfilePage(),
-          ),
-        ]),
       ),
     );
-  }
-
-
-  Color _getColor(item) {
-    return item == _currentTab ? cornflowerBlue: Colors.grey;
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
+import 'package:social/custom_navigators/notifications_navigator.dart';
+import 'package:social/custom_navigators/posts_navigator.dart';
+import 'package:social/custom_navigators/profile_navigator.dart';
 import 'package:social/helpers/scroll_animator.dart';
-import 'package:social/screens/notifications.dart';
-import 'package:social/screens/posts_navigator.dart';
-import 'package:social/screens/profile.dart';
 import 'package:social/widgets/bottom_navigation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,18 +22,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     TabItem.profile: GlobalKey<NavigatorState>(),
   };
   ScrollAnimator scrollAnimator;
+  ScrollToTopBloc _scrollBloc;
   @override
   initState() {
     super.initState();
     scrollAnimator = ScrollAnimator(ticker: this);
     scrollAnimator.init();
+    _scrollBloc = ScrollToTopBloc();
   }
 
   void _selectTab(index) {
     TabItem tabItem = TabItem.values[index];
     if (tabItem == _currentTab) {
-      // pop to first route
-      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+      _scrollBloc.add(ScrollToTop(item: tabItem));
     } else {
       setState(() => _currentTab = tabItem);
     }
@@ -42,10 +45,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         !await _navigatorKeys[_currentTab].currentState.maybePop();
     print(isFirstRouteInCurrentTab);
     if (isFirstRouteInCurrentTab) {
+      print(_currentTab != TabItem.posts);
       // if not on the 'main' tab
       if (_currentTab != TabItem.posts) {
         // select 'main' tab
-        _selectTab(TabItem.posts);
+        _selectTab(0);
         // back button handled by app
         return false;
       }
@@ -69,21 +73,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               onTap: _selectTab,
             ),
           ),
-          body: Stack(children: [
-            Offstage(
-              offstage: _currentTab != TabItem.posts,
-              child:
-                  PostsNavigator(navigatorKey: _navigatorKeys[TabItem.posts]),
-            ),
-            Offstage(
-              offstage: _currentTab != TabItem.notifications,
-              child: NotificationsPage(),
-            ),
-            Offstage(
-              offstage: _currentTab != TabItem.profile,
-              child: ProfilePage(),
-            ),
-          ]),
+          body: BlocProvider(
+            create: (_) => _scrollBloc,
+            child: Stack(children: [
+              Offstage(
+                offstage: _currentTab != TabItem.posts,
+                child:
+                    PostsNavigator(navigatorKey: _navigatorKeys[TabItem.posts]),
+              ),
+              Offstage(
+                offstage: _currentTab != TabItem.notifications,
+                child: NotificationsNavigator(
+                  navigatorKey: _navigatorKeys[TabItem.notifications],
+                ),
+              ),
+              Offstage(
+                offstage: _currentTab != TabItem.profile,
+                child: ProfileNavigator(
+                  navigatorKey: _navigatorKeys[TabItem.profile],
+                ),
+              ),
+            ]),
+          ),
         ),
       ),
     );

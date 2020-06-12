@@ -1,130 +1,155 @@
 import 'package:flutter/material.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
+import 'package:social/helpers/profile_clipper.dart';
+import 'package:social/screens/home.dart';
 import 'package:social/widgets/follow_count.dart';
 import 'package:social/widgets/post.dart';
-import 'package:social/widgets/profile_clipper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
+  final _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              ClipPath(
-                clipper: ProfileClipper(),
-                child: Container(
-                  width: width,
-                  height: height * 0.4,
-                  child: Image.asset(
-                    'assets/post3.jpg',
-                    fit: BoxFit.fill,
+    return BlocListener<ScrollToTopBloc, ScrollToTopState>(
+      listener: (context, state) {
+        if(state is ScrolledToTop && state.item == TabItem.profile) {
+          _scrollController.animateTo(0, duration: Duration(seconds: 1), curve: Curves.ease);
+        }
+      },
+          child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: <Widget>[
+            Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                ClipPath(
+                  clipper: ProfileClipper(),
+                  child: Container(
+                    width: width,
+                    height: height * 0.4,
+                    child: Image.asset(
+                      'assets/post3.jpg',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-              ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: width * 0.4,
-                    height: width * 0.4,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Image.asset('assets/avatar1.jpg'),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: width * 0.4,
+                      height: width * 0.4,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Image.asset('assets/avatar1.jpg'),
+                          ),
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset:
+                                      Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Text(
-            'Username',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(
-              'this is the bio this is the bio this is the bio this is the bio this is the bio this is the bio',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FollowCount(
-                  count: 1200,
-                  title: 'Followers',
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                FollowCount(
-                  count: 200,
-                  title: 'Following',
-                )
               ],
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(
-            color: Colors.grey,
-            height: 1,
-          ),
-          ListView(
-            physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            children: <Widget>[
-              PostItem(
-                post: {
-                  'name': 'post1',
-                  'image': 'post1.jpg',
-                  'body':
-                      'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                },
+            Text(
+              'Username',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              PostItem(
-                post: {
-                  'name': 'post2',
-                  'image': 'post2.jpg',
-                  'body':
-                      'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                },
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(
+                'this is the bio this is the bio this is the bio this is the bio this is the bio this is the bio',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
               ),
-              PostItem(
-                post: {
-                  'name': 'post3',
-                  'image': 'post3.jpg',
-                  'body':
-                      'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                },
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FollowCount(
+                    count: 1200,
+                    title: 'Followers',
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  FollowCount(
+                    count: 200,
+                    title: 'Following',
+                  )
+                ],
               ),
-              PostItem(
-                post: {
-                  'name': 'post4',
-                  'image': 'post4.jpg',
-                  'body':
-                      'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                },
-              ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              color: Colors.grey,
+              height: 1,
+            ),
+            ListView(
+              physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: <Widget>[
+                PostItem(
+                  post: {
+                    'name': 'post1',
+                    'image': 'post1.jpg',
+                    'body':
+                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                  },
+                ),
+                PostItem(
+                  post: {
+                    'name': 'post2',
+                    'image': 'post2.jpg',
+                    'body':
+                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                  },
+                ),
+                PostItem(
+                  post: {
+                    'name': 'post3',
+                    'image': 'post3.jpg',
+                    'body':
+                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                  },
+                ),
+                PostItem(
+                  post: {
+                    'name': 'post4',
+                    'image': 'post4.jpg',
+                    'body':
+                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

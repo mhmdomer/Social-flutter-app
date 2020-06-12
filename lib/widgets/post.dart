@@ -7,7 +7,7 @@ class PostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 20),
       child: Container(
         padding: EdgeInsets.only(top: 10, left: 10, right: 10),
         decoration: BoxDecoration(
@@ -16,6 +16,14 @@ class PostItem extends StatelessWidget {
             topLeft: Radius.circular(20),
             bottomLeft: Radius.circular(20),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            )
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +39,9 @@ class PostItem extends StatelessWidget {
                       radius: 20,
                       backgroundImage: AssetImage('assets/avatar1.jpg'),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text('Username'),
                   ],
                 ),
@@ -54,16 +64,36 @@ class PostItem extends StatelessWidget {
               child: Image.asset('assets/${post['image']}'),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 10, top: 10),
+              padding: EdgeInsets.only(top: 10),
               child: Row(
                 children: <Widget>[
-                  IconButton(icon: Icon(Icons.thumb_up, color: cornflowerBlue,), onPressed: () {}),
-                  IconButton(icon: Icon(Icons.mode_comment, color: Colors.grey,), onPressed: () {}),
+                  IconButton(
+                      icon: Icon(
+                        Icons.thumb_up,
+                        color: cornflowerBlue,
+                      ),
+                      onPressed: () {}),
+                  IconButton(
+                      icon: Icon(
+                        Icons.mode_comment,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {}),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 15, bottom: 10),
+              padding: EdgeInsets.only(left: 10),
+              child: Row(
+                children: <Widget>[
+                  Text('1232 Likes', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[800])),
+                  SizedBox(width: 20,),
+                  Text('1232 Comments', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[800])),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10, bottom: 10, top: 5),
               child: Text('4 minutes ago.', style: TextStyle(fontSize: 12)),
             )
           ],

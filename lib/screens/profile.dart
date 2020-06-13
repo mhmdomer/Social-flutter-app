@@ -6,19 +6,32 @@ import 'package:social/widgets/follow_count.dart';
 import 'package:social/widgets/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final _scrollController = ScrollController();
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('rebuilding profile');
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return BlocListener<ScrollToTopBloc, ScrollToTopState>(
       listener: (context, state) {
-        if(state is ScrolledToTop && state.item == TabItem.profile) {
-          _scrollController.animateTo(0, duration: Duration(seconds: 1), curve: Curves.ease);
+        if (state is ScrolledToTop && state.item == TabItem.profile) {
+          _scrollController.animateTo(0,
+              duration: Duration(seconds: 1), curve: Curves.ease);
         }
       },
-          child: SingleChildScrollView(
+      child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: <Widget>[
@@ -50,16 +63,16 @@ class ProfilePage extends StatelessWidget {
                             child: Image.asset('assets/avatar1.jpg'),
                           ),
                           decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset:
-                                      Offset(0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -115,6 +128,7 @@ class ProfilePage extends StatelessWidget {
               shrinkWrap: true,
               children: <Widget>[
                 PostItem(
+                  clickable: true,
                   post: {
                     'name': 'post1',
                     'image': 'post1.jpg',
@@ -123,6 +137,7 @@ class ProfilePage extends StatelessWidget {
                   },
                 ),
                 PostItem(
+                  clickable: true,
                   post: {
                     'name': 'post2',
                     'image': 'post2.jpg',
@@ -131,6 +146,7 @@ class ProfilePage extends StatelessWidget {
                   },
                 ),
                 PostItem(
+                  clickable: true,
                   post: {
                     'name': 'post3',
                     'image': 'post3.jpg',
@@ -139,6 +155,7 @@ class ProfilePage extends StatelessWidget {
                   },
                 ),
                 PostItem(
+                  clickable: true,
                   post: {
                     'name': 'post4',
                     'image': 'post4.jpg',

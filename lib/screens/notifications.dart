@@ -4,10 +4,22 @@ import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/screens/home.dart';
 import 'package:social/widgets/notification.dart';
 
-class NotificationsPage extends StatelessWidget {
+class NotificationsPage extends StatefulWidget {
+  @override
+  _NotificationsPageState createState() => _NotificationsPageState();
+}
+
+class _NotificationsPageState extends State<NotificationsPage> {
   final _scrollController = ScrollController();
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('rebuilding notifications');
     return BlocListener<ScrollToTopBloc, ScrollToTopState>(
       listener: (context, state) {
         if (state is ScrolledToTop && state.item == TabItem.notifications) {

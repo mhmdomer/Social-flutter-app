@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:social/constants.dart';
 
 class PostItem extends StatelessWidget {
-  PostItem({@required this.post}) : assert(post != null);
+  PostItem({@required this.post, @required this.clickable})
+      : assert(post != null && clickable != null);
+  final bool clickable;
   final post;
   @override
   Widget build(BuildContext context) {
+    void _onPressed() {
+      Navigator.pushNamed(context, '/post');
+    }
+
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Container(
@@ -86,9 +92,22 @@ class PostItem extends StatelessWidget {
               padding: EdgeInsets.only(left: 10),
               child: Row(
                 children: <Widget>[
-                  Text('1232 Likes', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[800])),
-                  SizedBox(width: 20,),
-                  Text('1232 Comments', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[800])),
+                  Text(
+                    '1232 Likes',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  FlatButton(
+                    onPressed: clickable ? _onPressed : null,
+                    child: Text(
+                      '1232 Comments',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                    ),
+                  ),
                 ],
               ),
             ),

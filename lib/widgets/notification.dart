@@ -21,16 +21,16 @@ class NotificationItem extends StatelessWidget {
           backgroundImage: AssetImage('assets/avatar1.jpg'),
         ),
         title: RichText(
-          text: new TextSpan(
-            style: new TextStyle(
+          text: TextSpan(
+            style: TextStyle(
               fontSize: 14.0,
               color: Colors.black,
             ),
             children: <TextSpan>[
-              new TextSpan(text: 'Omer Mustafa ', style: TextStyle(fontWeight: FontWeight.bold)),
-              new TextSpan(
+              TextSpan(text: 'Omer Mustafa ', style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(
                   text: getText(type),
-                  style: new TextStyle()),
+                  style: TextStyle()),
             ],
           ),
         ),
@@ -52,7 +52,7 @@ class NotificationItem extends StatelessWidget {
         return 'liked your post';
         break;
       case NotificationType.commentedOnYourPost:
-        return 'commented on your post';
+        return 'commented on your post ';
         break;
       case NotificationType.likedYourComment:
         return 'liked your comment';

@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _selectTab(index) {
     TabItem tabItem = TabItem.values[index];
     if (tabItem == _currentTab) {
+      print('adding');
       _scrollBloc.add(ScrollToTop(item: tabItem));
     } else {
       setState(() => _currentTab = tabItem);

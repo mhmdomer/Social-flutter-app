@@ -80,11 +80,12 @@ class PostItem extends StatelessWidget {
                       ),
                       onPressed: () {}),
                   IconButton(
-                      icon: Icon(
-                        Icons.mode_comment,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {}),
+                    icon: Icon(
+                      Icons.mode_comment,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () => Navigator.pushNamed(context, '/post'),
+                  ),
                 ],
               ),
             ),

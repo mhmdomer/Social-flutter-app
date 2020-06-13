@@ -10,14 +10,9 @@ class PostsPage extends StatefulWidget {
   _PostsPageState createState() => _PostsPageState();
 }
 
+
 class _PostsPageState extends State<PostsPage> {
   final _scrollController = ScrollController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

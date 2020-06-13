@@ -11,12 +11,7 @@ class NotificationsPage extends StatefulWidget {
 
 class _NotificationsPageState extends State<NotificationsPage> {
   final _scrollController = ScrollController();
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     print('rebuilding notifications');

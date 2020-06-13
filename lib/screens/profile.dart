@@ -13,11 +13,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _scrollController = ScrollController();
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

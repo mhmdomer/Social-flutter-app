@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:social/bloc/simple_bloc_delegate.dart';
 import 'package:social/constants.dart';
 import 'package:social/screens/home.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(
     MaterialApp(
       theme: ThemeData(

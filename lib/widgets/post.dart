@@ -9,7 +9,7 @@ class PostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _onPressed() {
-      Navigator.pushNamed(context, '/post');
+      Navigator.pushNamed(context, '/post', arguments: 1);
     }
 
     return Padding(
@@ -28,19 +28,23 @@ class PostItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: 20,
-                      backgroundImage: AssetImage('assets/avatar1.jpg'),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('Username', style: TextStyle(fontSize: 17)),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/profile', arguments: 1);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: 20,
+                        backgroundImage: AssetImage('assets/avatar1.jpg'),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text('Username', style: TextStyle(fontSize: 17)),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10, top: 5),

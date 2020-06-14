@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:social/screens/add_post.dart';
 import 'package:social/screens/photo_viewer.dart';
 import 'package:social/screens/post_detail.dart';
 import 'package:social/screens/posts.dart';
+import 'package:social/screens/profile.dart';
 
 class PostsNavigator extends StatelessWidget {
   PostsNavigator({@required this.navigatorKey}) : assert(navigatorKey != null);
@@ -19,11 +21,21 @@ class PostsNavigator extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => PostsPage());
             break;
           case '/post':
-            return MaterialPageRoute(builder: (_) => PostDetails());
+            if(settings.arguments is int) {
+              return MaterialPageRoute(builder: (_) => PostDetails(id: settings.arguments));
+            }
             break;
           case '/photo':
             if(settings.arguments is String) {
               return MaterialPageRoute(builder: (_) => PhotoViewer(imageUrl: settings.arguments));
+            }
+            break;
+          case '/add_post':
+            return MaterialPageRoute(builder: (_) => AddPost());
+            break;
+          case '/profile':
+            if (settings.arguments is int) {
+              return MaterialPageRoute(builder: (_) => ProfilePage(user_id: settings.arguments));
             }
             break;
           default:

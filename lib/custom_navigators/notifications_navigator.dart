@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:social/screens/notifications.dart';
 import 'package:social/screens/photo_viewer.dart';
+import 'package:social/screens/post_detail.dart';
+import 'package:social/screens/profile.dart';
 
 class NotificationsNavigator extends StatelessWidget {
   NotificationsNavigator({@required this.navigatorKey}) : assert(navigatorKey != null);
@@ -17,9 +19,19 @@ class NotificationsNavigator extends StatelessWidget {
           case '/':
             return MaterialPageRoute(builder: (_) => NotificationsPage());
             break;
+          case '/post':
+            if(settings.arguments is int) {
+              return MaterialPageRoute(builder: (_) => PostDetails(id: settings.arguments));
+            }
+            break;
           case '/photo':
             if(settings.arguments is String) {
               return MaterialPageRoute(builder: (_) => PhotoViewer(imageUrl: settings.arguments));
+            }
+            break;
+          case '/profile':
+            if (settings.arguments is int) {
+              return MaterialPageRoute(builder: (_) => ProfilePage(user_id: settings.arguments));
             }
             break;
           default:

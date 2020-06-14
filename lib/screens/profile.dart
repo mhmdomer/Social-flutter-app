@@ -7,6 +7,8 @@ import 'package:social/widgets/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
+  ProfilePage({this.user_id});
+  final int user_id;
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }

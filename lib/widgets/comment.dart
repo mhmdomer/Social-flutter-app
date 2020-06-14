@@ -8,9 +8,14 @@ class Comment extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage('assets/avatar1.jpg'),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, '/profile', arguments: 1);
+            },
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage('assets/avatar1.jpg'),
+            ),
           ),
           Expanded(
             child: Container(
@@ -33,7 +38,11 @@ class Comment extends StatelessWidget {
                       ],
                     ),
                   ),
-                  IconButton(icon: Icon(Icons.thumb_up), onPressed: () {}, iconSize: 18,),
+                  IconButton(
+                    icon: Icon(Icons.thumb_up),
+                    onPressed: () {},
+                    iconSize: 18,
+                  ),
                   Container(
                     // padding: EdgeInsets.only(top: 8.0),
                     child: Text(

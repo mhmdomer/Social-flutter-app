@@ -4,6 +4,8 @@ import 'package:social/widgets/comment.dart';
 import 'package:social/widgets/post.dart';
 
 class PostDetails extends StatefulWidget {
+  PostDetails({@required this.id});
+  final int id;
   @override
   _PostDetailsState createState() => _PostDetailsState();
 }

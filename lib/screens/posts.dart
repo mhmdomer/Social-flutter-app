@@ -22,7 +22,7 @@ class _PostsPageState extends State<PostsPage> {
         tooltip: 'Add post',
         backgroundColor: mediumBlue,
         child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/post'),
+        onPressed: () => Navigator.pushNamed(context, '/add_post'),
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 10, top: 15),

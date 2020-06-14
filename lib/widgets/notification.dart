@@ -14,7 +14,7 @@ class NotificationItem extends StatelessWidget {
       color: [cornflowerBlue, Colors.transparent][Random().nextInt(2)],
       child: ListTile(
         onTap: () {
-          
+          Navigator.pushNamed(context, '/post', arguments: 1);
         },
         leading: CircleAvatar(
           radius: 30,
@@ -27,10 +27,10 @@ class NotificationItem extends StatelessWidget {
               color: Colors.black,
             ),
             children: <TextSpan>[
-              TextSpan(text: 'Omer Mustafa ', style: TextStyle(fontWeight: FontWeight.bold)),
               TextSpan(
-                  text: getText(type),
-                  style: TextStyle()),
+                  text: 'Omer Mustafa ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: getText(type), style: TextStyle()),
             ],
           ),
         ),
@@ -62,7 +62,7 @@ class NotificationItem extends StatelessWidget {
         break;
     }
   }
-  
+
   Icon getIcon(type) {
     switch (type) {
       case NotificationType.likedYourPost:

@@ -117,48 +117,51 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.grey,
               height: 1,
             ),
-            ListView(
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: <Widget>[
-                PostItem(
-                  clickable: true,
-                  post: {
-                    'name': 'post1',
-                    'image': 'post1.jpg',
-                    'body':
-                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                  },
-                ),
-                PostItem(
-                  clickable: true,
-                  post: {
-                    'name': 'post2',
-                    'image': 'post2.jpg',
-                    'body':
-                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                  },
-                ),
-                PostItem(
-                  clickable: true,
-                  post: {
-                    'name': 'post3',
-                    'image': 'post3.jpg',
-                    'body':
-                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                  },
-                ),
-                PostItem(
-                  clickable: true,
-                  post: {
-                    'name': 'post4',
-                    'image': 'post4.jpg',
-                    'body':
-                        'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
-                  },
-                ),
-              ],
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                children: <Widget>[
+                  PostItem(
+                    clickable: true,
+                    post: {
+                      'name': 'post1',
+                      'image': 'post1.jpg',
+                      'body':
+                          'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                    },
+                  ),
+                  PostItem(
+                    clickable: true,
+                    post: {
+                      'name': 'post2',
+                      'image': 'post2.jpg',
+                      'body':
+                          'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                    },
+                  ),
+                  PostItem(
+                    clickable: true,
+                    post: {
+                      'name': 'post3',
+                      'image': 'post3.jpg',
+                      'body':
+                          'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                    },
+                  ),
+                  PostItem(
+                    clickable: true,
+                    post: {
+                      'name': 'post4',
+                      'image': 'post4.jpg',
+                      'body':
+                          'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set'
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

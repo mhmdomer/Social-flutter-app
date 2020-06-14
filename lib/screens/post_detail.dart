@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social/constants.dart';
 import 'package:social/widgets/comment.dart';
 import 'package:social/widgets/post.dart';
 
@@ -13,14 +14,17 @@ class _PostDetailsState extends State<PostDetails> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          PostItem(
-            clickable: false,
-            post: {
-              'name': 'post3',
-              'image': 'post3.jpg',
-              'body':
-                  'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set',
-            },
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            child: PostItem(
+              clickable: false,
+              post: {
+                'name': 'post3',
+                'image': 'post3.jpg',
+                'body':
+                    'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set',
+              },
+            ),
           ),
           ListView(
             physics: NeverScrollableScrollPhysics(),
@@ -31,6 +35,25 @@ class _PostDetailsState extends State<PostDetails> {
               Comment(),
               Comment(),
             ],
+          ),
+          Container(
+            padding: EdgeInsets.only(bottom: 10, left: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Leave a comment...'),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {},
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social/screens/photo_viewer.dart';
 import 'package:social/screens/post_detail.dart';
 import 'package:social/screens/posts.dart';
 
@@ -19,6 +20,11 @@ class PostsNavigator extends StatelessWidget {
             break;
           case '/post':
             return MaterialPageRoute(builder: (_) => PostDetails());
+            break;
+          case '/photo':
+            if(settings.arguments is String) {
+              return MaterialPageRoute(builder: (_) => PhotoViewer(imageUrl: settings.arguments));
+            }
             break;
           default:
             return MaterialPageRoute(builder: (_) => PostsPage());

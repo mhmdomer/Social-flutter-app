@@ -15,21 +15,12 @@ class PostItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Container(
-        padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+        padding: EdgeInsets.only(top: 10, right: 10),
         decoration: BoxDecoration(
-          color: greyBlue,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             bottomLeft: Radius.circular(20),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
-            )
-          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,26 +39,32 @@ class PostItem extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text('Username'),
+                    Text('Username', style: TextStyle(fontSize: 17)),
                   ],
                 ),
-                FlatButton(
-                  child: Text(
-                    'follow',
-                    style: TextStyle(color: cornflowerBlue),
-                  ),
-                  onPressed: () {},
+                Padding(
+                  padding: EdgeInsets.only(left: 10, bottom: 10, top: 5),
+                  child: Text('4 minutes ago', style: TextStyle(fontSize: 12)),
                 ),
               ],
             ),
             Padding(
               padding: EdgeInsets.all(15),
-              child:
-                  Text(post['body'], style: TextStyle(color: Colors.black54)),
+              child: InkWell(
+                onTap: clickable ? _onPressed : null,
+                child: Text(
+                  post['body'],
+                  style: TextStyle(color: Colors.black87, fontSize: 16),
+                ),
+              ),
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              child: Image.asset('assets/${post['image']}'),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, '/photo',
+                  arguments: 'assets/${post['image']}'),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                child: Image.asset('assets/${post['image']}'),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(top: 10),
@@ -84,7 +81,7 @@ class PostItem extends StatelessWidget {
                       Icons.mode_comment,
                       color: Colors.grey,
                     ),
-                    onPressed: () => Navigator.pushNamed(context, '/post'),
+                    onPressed: () => clickable ? _onPressed : null,
                   ),
                 ],
               ),
@@ -96,7 +93,9 @@ class PostItem extends StatelessWidget {
                   Text(
                     '1232 Likes',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                      color: Colors.grey[800],
+                      fontSize: 12,
+                    ),
                   ),
                   SizedBox(
                     width: 20,
@@ -106,16 +105,15 @@ class PostItem extends StatelessWidget {
                     child: Text(
                       '1232 Comments',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                        color: Colors.grey[800],
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 5),
-              child: Text('4 minutes ago.', style: TextStyle(fontSize: 12)),
-            )
+            Divider(),
           ],
         ),
       ),

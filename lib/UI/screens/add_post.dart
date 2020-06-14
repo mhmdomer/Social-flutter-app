@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
-import 'package:social/widgets/button.dart';
+import 'package:social/UI/constants.dart';
+import 'package:social/UI/widgets/button.dart';
 
 class AddPost extends StatefulWidget {
   @override

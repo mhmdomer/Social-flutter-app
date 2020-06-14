@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
-import 'package:social/screens/home.dart';
+import 'package:social/UI/constants.dart';
+import 'package:social/UI/screens/home.dart';
 
 class BottomNavigation extends StatelessWidget {
   BottomNavigation({@required this.currentTab, @required this.onTap})

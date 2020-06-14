@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
-import 'package:social/widgets/comment.dart';
-import 'package:social/widgets/post.dart';
+import 'package:social/UI/constants.dart';
+import 'package:social/UI/widgets/comment.dart';
+import 'package:social/UI/widgets/post.dart';
 
 class PostDetails extends StatefulWidget {
   PostDetails({@required this.id});

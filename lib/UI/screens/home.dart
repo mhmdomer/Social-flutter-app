@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
-import 'package:social/custom_navigators/notifications_navigator.dart';
-import 'package:social/custom_navigators/posts_navigator.dart';
-import 'package:social/custom_navigators/profile_navigator.dart';
-import 'package:social/helpers/scroll_animator.dart';
-import 'package:social/widgets/bottom_navigation.dart';
+import 'package:social/UI/custom_navigators/notifications_navigator.dart';
+import 'package:social/UI/custom_navigators/posts_navigator.dart';
+import 'package:social/UI/custom_navigators/profile_navigator.dart';
+import 'package:social/UI/helpers/scroll_animator.dart';
+import 'package:social/UI/widgets/bottom_navigation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
-import 'package:social/constants.dart';
-import 'package:social/screens/home.dart';
-import 'package:social/widgets/post.dart';
+import 'package:social/UI/constants.dart';
+import 'package:social/UI/screens/home.dart';
+import 'package:social/UI/widgets/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostsPage extends StatefulWidget {

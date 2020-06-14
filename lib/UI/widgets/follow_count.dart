@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
+import 'package:social/UI/constants.dart';
 
 class FollowCount extends StatelessWidget {
   FollowCount({@required this.count, @required this.title}) : assert(count != null && title != null);

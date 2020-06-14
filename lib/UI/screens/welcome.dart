@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
-import 'package:social/helpers/curved_painter.dart';
-import 'package:social/screens/login.dart';
-import 'package:social/screens/register.dart';
-import 'package:social/widgets/button.dart';
+import 'package:social/UI/constants.dart';
+import 'package:social/UI/helpers/curved_painter.dart';
+import 'package:social/UI/screens/login.dart';
+import 'package:social/UI/screens/register.dart';
+import 'package:social/UI/widgets/button.dart';
 
 class Welcome extends StatefulWidget {
   @override

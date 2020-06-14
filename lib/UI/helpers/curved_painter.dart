@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
+import 'package:social/UI/constants.dart';
 
 class CurvedPainter extends CustomPainter {
   final double curve;

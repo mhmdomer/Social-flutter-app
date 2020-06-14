@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
+import 'package:social/UI/constants.dart';
 
 enum NotificationType { likedYourPost, commentedOnYourPost, likedYourComment }
 

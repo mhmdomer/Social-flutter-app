@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
-import 'package:social/helpers/curved_painter.dart';
-import 'package:social/screens/posts.dart';
-import 'package:social/screens/register.dart';
-import 'package:social/widgets/button.dart';
+import 'package:social/UI/constants.dart';
+import 'package:social/UI/helpers/curved_painter.dart';
+import 'package:social/UI/screens/home.dart';
+import 'package:social/UI/screens/login.dart';
+import 'package:social/UI/widgets/button.dart';
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +22,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 150,
-                    ),
+                    SizedBox(height: 150,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -68,16 +66,40 @@ class _LoginState extends State<Login> {
                               // email = value.trim();
                             },
                             decoration: kTextFieldDecoration.copyWith(
+                                hintText: 'Username'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextField(
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: (value) {
+                              // email = value.trim();
+                            },
+                            decoration: kTextFieldDecoration.copyWith(
                                 hintText: 'Password'),
                           ),
                           SizedBox(
                             height: 10,
                           ),
+                          TextField(
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: (value) {
+                              // email = value.trim();
+                            },
+                            decoration: kTextFieldDecoration.copyWith(
+                                hintText: 'Confirm Password'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Button(
-                            text: 'Login',
+                            text: 'Register',
                             color: mediumBlue,
                             onPress: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PostsPage()));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                             },
                           ),
                         ],
@@ -90,26 +112,27 @@ class _LoginState extends State<Login> {
             Container(
               child: CustomPaint(
                 painter: CurvedPainter(curve: 0.5),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Don\'t have an account?'),
-                      FlatButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text('Already have an account?'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: FlatButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Register()));
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => Login()));
                         },
                         child: Text(
-                          'Register',
+                          'Login',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:social/screens/add_post.dart';
-import 'package:social/screens/photo_viewer.dart';
-import 'package:social/screens/post_detail.dart';
-import 'package:social/screens/posts.dart';
-import 'package:social/screens/profile.dart';
+import 'package:social/UI/screens/notifications.dart';
+import 'package:social/UI/screens/photo_viewer.dart';
+import 'package:social/UI/screens/post_detail.dart';
+import 'package:social/UI/screens/profile.dart';
 
-class PostsNavigator extends StatelessWidget {
-  PostsNavigator({@required this.navigatorKey}) : assert(navigatorKey != null);
+class NotificationsNavigator extends StatelessWidget {
+  NotificationsNavigator({@required this.navigatorKey}) : assert(navigatorKey != null);
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
@@ -18,7 +17,7 @@ class PostsNavigator extends StatelessWidget {
         String name = settings.name;
         switch(name){
           case '/':
-            return MaterialPageRoute(builder: (_) => PostsPage());
+            return MaterialPageRoute(builder: (_) => NotificationsPage());
             break;
           case '/post':
             if(settings.arguments is int) {
@@ -30,16 +29,13 @@ class PostsNavigator extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => PhotoViewer(imageUrl: settings.arguments));
             }
             break;
-          case '/add_post':
-            return MaterialPageRoute(builder: (_) => AddPost());
-            break;
           case '/profile':
             if (settings.arguments is int) {
               return MaterialPageRoute(builder: (_) => ProfilePage(user_id: settings.arguments));
             }
             break;
           default:
-            return MaterialPageRoute(builder: (_) => PostsPage());
+            return MaterialPageRoute(builder: (_) => NotificationsPage());
             break;
         }
       },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social/constants.dart';
+import 'package:social/UI/constants.dart';
 
 class PostItem extends StatelessWidget {
   PostItem({@required this.post, @required this.clickable})

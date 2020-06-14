@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:social/screens/home.dart';
+import 'package:social/UI/screens/home.dart';
 
 part 'scroll_to_top_event.dart';
 part 'scroll_to_top_state.dart';

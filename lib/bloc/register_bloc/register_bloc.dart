@@ -14,22 +14,26 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
-    if(event is RegisterSubmitted) {
+    if (event is RegisterSubmitted) {
       yield RegisterLoading();
       try {
-        final user = await repository.registerUser(event.credentials);
+        await repository.registerUser(event.credentials);
         yield RegisterSuccess();
       } catch (e) {
-        if(e['email'] != null) {
-          yield RegisterError(error: e['email'][0]);
-        } else if(e['name'] != null) {
-          yield RegisterError(error: e['name'][0]);
-        } else if(e['password'] != null) {
-          yield RegisterError(error: e['password'][0]);
-        } else {
-          yield RegisterError(error: 'Sorry, an error occurred');
-        }
+        yield* showError(e);
       }
+    }
+  }
+
+  Stream<RegisterState> showError(e) async* {
+    if (e['email'] != null) {
+      yield RegisterError(error: e['email'][0]);
+    } else if (e['name'] != null) {
+      yield RegisterError(error: e['name'][0]);
+    } else if (e['password'] != null) {
+      yield RegisterError(error: e['password'][0]);
+    } else {
+      yield RegisterError(error: 'Sorry, an error occurred');
     }
   }
 }

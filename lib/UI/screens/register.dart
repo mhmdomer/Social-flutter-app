@@ -39,24 +39,24 @@ class _RegisterState extends State<Register> {
   }
 
   String _nameValidator(String value) {
-    if(value.trim().length < 4) {
+    if (value.trim().length < 4) {
       return 'length must be at least 4';
     }
-    if(RegExp(r"^[A-Za-z][A-Za-z0-9]{4,31}$").hasMatch(value.trim())) {
+    if (RegExp(r"^[A-Za-z][A-Za-z0-9]{4,31}$").hasMatch(value.trim())) {
       return null;
     }
     return 'name not valid (only characters and numbers are allowed)';
   }
 
   String _passwordValidator(String value) {
-    if(value.trim().length < 6) {
+    if (value.trim().length < 6) {
       return 'password must be at least 6 characters';
     }
     return null;
   }
 
   String _passwordConfirmationValidator(String value) {
-    if(value.trim() != password.text.trim()) {
+    if (value.trim() != password.text.trim()) {
       return 'passwords does not match!';
     }
     return null;
@@ -90,10 +90,11 @@ class _RegisterState extends State<Register> {
         body: BlocConsumer(
           bloc: bloc,
           listener: (context, state) {
-            if(state is RegisterError) {
+            if (state is RegisterError) {
               showAlert(state.error);
-            } else if(state is RegisterSuccess) {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
+            } else if (state is RegisterSuccess) {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (_) => HomePage()));
             }
           },
           buildWhen: (previous, current) => current is! RegisterSuccess,
@@ -144,9 +145,7 @@ class _RegisterState extends State<Register> {
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
-                                        setState(() {
-                                          email.text = value;
-                                        });
+                                        email.text = value;
                                       },
                                       decoration: kTextFieldDecoration.copyWith(
                                           hintText: 'Email'),
@@ -159,9 +158,7 @@ class _RegisterState extends State<Register> {
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
-                                        setState(() {
-                                          name.text = value;
-                                        });
+                                        name.text = value;
                                       },
                                       decoration: kTextFieldDecoration.copyWith(
                                           hintText: 'Username'),
@@ -174,9 +171,7 @@ class _RegisterState extends State<Register> {
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
-                                        setState(() {
-                                          password.text = value;
-                                        });
+                                        password.text = value;
                                       },
                                       decoration: kTextFieldDecoration.copyWith(
                                           hintText: 'Password'),
@@ -185,13 +180,12 @@ class _RegisterState extends State<Register> {
                                       height: 10,
                                     ),
                                     TextFormField(
+                                      obscureText: true,
                                       validator: _passwordConfirmationValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
-                                        setState(() {
-                                          passwordConfirmation.text = value;
-                                        });
+                                        passwordConfirmation.text = value;
                                       },
                                       decoration: kTextFieldDecoration.copyWith(
                                           hintText: 'Confirm Password'),
@@ -209,8 +203,10 @@ class _RegisterState extends State<Register> {
                                             'name': name.text.trim(),
                                             'password': password.text.trim()
                                           };
-                                          bloc.add(RegisterSubmitted(
-                                              credentials: credentials));
+                                          bloc.add(
+                                            RegisterSubmitted(
+                                                credentials: credentials),
+                                          );
                                         }
                                       },
                                     ),

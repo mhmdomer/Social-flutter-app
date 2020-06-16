@@ -6,7 +6,7 @@ import 'package:social/data/models/user.dart';
 
 class UserApiProvider extends BaseProvider {
 
-  Future<UserModel> createUser(credentials) async {
+  createUser(credentials) async {
     final dio = Dio();
     dio.options.headers['Accept'] = 'application/json';
     try {
@@ -22,25 +22,32 @@ class UserApiProvider extends BaseProvider {
     } on DioError catch (e) {
       if(e.response != null) {
         throw e.response.data['errors'];
-        print('there is a response');
-        print(e.response.data);
       } else {
         print(e.message);
       }
     }
   }
 
-  Future<UserModel> loginUser(credentials) async {
+  loginUser(credentials) async {
     final dio = Dio();
     dio.options.headers['Accept'] = 'application/json';
-    final response = await dio.post('$baseUrl/login', data: credentials);
-    if (response.statusCode == 200) {
-      final token = response.data['access_token'];
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString('token', token);
-      return UserModel.fromJson(response.data);
-    } else {
-      throw response.data['message'];
+    try {
+      final response = await dio.post('$baseUrl/login', data: credentials);
+      print(response.data);
+      if (response.statusCode == 200) {
+        final token = response.data['access_token'];
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString('token', token);
+        return UserModel.fromJson(response.data);
+      } else {
+        throw response.data['message'];
+      }
+    } on DioError catch(e) {
+      if(e.response != null) {
+        throw e.response.data;
+      } else {
+        print(e.message);
+      }
     }
   }
 

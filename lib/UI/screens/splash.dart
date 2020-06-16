@@ -13,10 +13,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    getToken();
+    checkToken();
   }
 
-  Future<String> getToken() async {
+  checkToken() async {
     final preferences = await SharedPreferences.getInstance();
     final token = preferences.getString('token');
     await Future.delayed(Duration(seconds: 2));

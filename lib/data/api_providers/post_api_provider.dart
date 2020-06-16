@@ -1,12 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:social/data/api_providers/api_constants.dart';
+import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/post.dart';
 
-class PostApiProvider {
-  final _client = Dio();
+class PostApiProvider extends BaseProvider{
 
   Future<List<PostModel>> getPosts() async {
-    final response = await _client.get('$baseUrl/posts');
+    final response = await client.get('$baseUrl/posts');
     if(response.statusCode == 200) {
       return PostModel.listFromJson(response.data);
     } else {
@@ -15,7 +14,7 @@ class PostApiProvider {
   }
 
   Future<PostModel> getPost(id) async {
-    final response = await _client.get('$baseUrl/posts/$id');
+    final response = await client.get('$baseUrl/posts/$id');
     if(response.statusCode == 200) {
       return PostModel.fromJson(response.data);
     } else {
@@ -24,7 +23,7 @@ class PostApiProvider {
   }
 
   Future<PostModel> createPost(data) async {
-    final response = await _client.post('$baseUrl/posts', data: data);
+    final response = await client.post('$baseUrl/posts', data: data);
     if(response.statusCode == 200) {
       return PostModel.fromJson(response.data);
     } else {
@@ -33,7 +32,7 @@ class PostApiProvider {
   }
 
   Future<PostModel> editPost(id, data) async {
-    final response = await _client.put('$baseUrl/posts/$id', data: data);
+    final response = await client.put('$baseUrl/posts/$id', data: data);
     if(response.statusCode == 200) {
       return PostModel.fromJson(response.data);
     } else {
@@ -43,7 +42,7 @@ class PostApiProvider {
 
 
   Future<bool> deletePost(id) async {
-    final response = await _client.delete('$baseUrl/posts/$id');
+    final response = await client.delete('$baseUrl/posts/$id');
     if(response.statusCode == 200) {
       return true;
     } else {
@@ -52,7 +51,7 @@ class PostApiProvider {
   }
 
   Future<bool> favoritePost(id) async {
-    final response = await _client.post('$baseUrl/posts/$id/favorite');
+    final response = await client.post('$baseUrl/posts/$id/favorite');
     if(response.statusCode == 200) {
       return true;
     } else {
@@ -61,7 +60,7 @@ class PostApiProvider {
   }
 
   Future<bool> unFavoritePost(id) async {
-    final response = await _client.delete('$baseUrl/posts/$id/unFavorite');
+    final response = await client.delete('$baseUrl/posts/$id/un_favorite');
     if(response.statusCode == 200) {
       return true;
     } else {

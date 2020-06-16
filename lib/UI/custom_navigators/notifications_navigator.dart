@@ -31,7 +31,7 @@ class NotificationsNavigator extends StatelessWidget {
             break;
           case '/profile':
             if (settings.arguments is int) {
-              return MaterialPageRoute(builder: (_) => ProfilePage(user_id: settings.arguments));
+              return MaterialPageRoute(builder: (_) => ProfilePage(userId: settings.arguments));
             }
             break;
           default:

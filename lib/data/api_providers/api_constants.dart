@@ -1,1 +1,1 @@
-final baseUrl = 'https://';
+final baseUrl = 'https://vampiresocial.herokuapp.com/api/v1';

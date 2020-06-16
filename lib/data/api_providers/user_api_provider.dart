@@ -1,32 +1,52 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social/data/api_providers/api_constants.dart';
+import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/user.dart';
 
-class UserApiProvider {
-  final _client = Dio();
+class UserApiProvider extends BaseProvider {
 
   Future<UserModel> createUser(credentials) async {
-    final response = await _client.post('$baseUrl/register', data: credentials);
-    if(response.statusCode == 200) {
-      return UserModel.fromJson(response.data);
-    } else {
-      throw response.data['message'];
+    final dio = Dio();
+    dio.options.headers['Accept'] = 'application/json';
+    try {
+      final response = await dio.post('$baseUrl/register', data: credentials);
+      if (response.statusCode == 200) {
+        final token = response.data['access_token'];
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString('token', token);
+        return UserModel.fromJson(response.data);
+      } else {
+        throw response.data['message'];
+      }
+    } on DioError catch (e) {
+      if(e.response != null) {
+        throw e.response.data['errors'];
+        print('there is a response');
+        print(e.response.data);
+      } else {
+        print(e.message);
+      }
     }
   }
 
   Future<UserModel> loginUser(credentials) async {
-    final response = await _client.post('$baseUrl/login', data: credentials);
-    if(response.statusCode == 200) {
+    final dio = Dio();
+    dio.options.headers['Accept'] = 'application/json';
+    final response = await dio.post('$baseUrl/login', data: credentials);
+    if (response.statusCode == 200) {
+      final token = response.data['access_token'];
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setString('token', token);
       return UserModel.fromJson(response.data);
     } else {
       throw response.data['message'];
     }
   }
 
-
   Future<UserModel> getUser(id) async {
-    final response = await _client.get('$baseUrl/users/$id');
-    if(response.statusCode == 200) {
+    final response = await client.get('$baseUrl/user/$id');
+    if (response.statusCode == 200) {
       return UserModel.fromJson(response.data);
     } else {
       throw response.data['message'];

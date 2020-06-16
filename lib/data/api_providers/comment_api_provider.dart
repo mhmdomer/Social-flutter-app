@@ -1,12 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:social/data/api_providers/api_constants.dart';
+import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/comment.dart';
 
-class CommentApiProvider {
-  final _client = Dio();
+class CommentApiProvider extends BaseProvider{
 
   Future<List<CommentModel>> getComments(postId) async {
-    final response = await _client.get('$baseUrl/posts/$postId/comments');
+    final response = await this.client.get('$baseUrl/posts/$postId/comments');
     if(response.statusCode == 200) {
       return CommentModel.listFromJson(response.data);
     } else {
@@ -15,7 +14,7 @@ class CommentApiProvider {
   }
 
   Future<CommentModel> addComment(postId, data) async {
-    final response = await _client.post('$baseUrl/posts/$postId/comments', data: data);
+    final response = await client.post('$baseUrl/posts/$postId/comments', data: data);
     if(response.statusCode == 200) {
       return CommentModel.fromJson(response.data);
     } else {
@@ -24,7 +23,7 @@ class CommentApiProvider {
   }
 
   Future<CommentModel> editComment(data, commentId) async {
-    final response = await _client.put('$baseUrl/comments/$commentId', data: data);
+    final response = await client.put('$baseUrl/comments/$commentId', data: data);
     if(response.statusCode == 200) {
       return CommentModel.fromJson(response.data);
     } else {
@@ -33,7 +32,7 @@ class CommentApiProvider {
   }
 
   Future<bool> deleteComment(commentId) async {
-    final response = await _client.delete('$baseUrl/comments/$commentId');
+    final response = await client.delete('$baseUrl/comments/$commentId');
     if(response.statusCode == 200) {
       return true;
     } else {
@@ -42,7 +41,7 @@ class CommentApiProvider {
   }
 
   Future<bool> favoriteComment(commentId) async {
-    final response = await _client.post('$baseUrl/comments/$commentId/favorite');
+    final response = await client.post('$baseUrl/comments/$commentId/favorite');
     if(response.statusCode == 200) {
       return true;
     } else {
@@ -51,7 +50,7 @@ class CommentApiProvider {
   }
 
   Future<bool> unFavoriteComment(commentId) async {
-    final response = await _client.delete('$baseUrl/comments/$commentId/unFavorite');
+    final response = await client.delete('$baseUrl/comments/$commentId/un_favorite');
     if(response.statusCode == 200) {
       return true;
     } else {

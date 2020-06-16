@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social/bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/notification.dart';
 

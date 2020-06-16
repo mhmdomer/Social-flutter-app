@@ -26,6 +26,9 @@ dev_dependencies:
   equatable: ^1.2.0
   photo_view: ^0.9.2
   dio: ^3.0.9
+  rflutter_alert: ^1.0.3
+  flutter_spinkit: ^4.1.2+1
+  http: ^0.12.1
 
 flutter:
   uses-material-design: true

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:social/bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostsPage extends StatefulWidget {
   @override
   _PostsPageState createState() => _PostsPageState();
 }
-
 
 class _PostsPageState extends State<PostsPage> {
   final _scrollController = ScrollController();
@@ -22,7 +22,11 @@ class _PostsPageState extends State<PostsPage> {
         tooltip: 'Add post',
         backgroundColor: mediumBlue,
         child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/add_post'),
+        onPressed: () async {
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', null);
+          // Navigator.pushNamed(context, '/add_post');
+        },
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 10, top: 15),
@@ -37,7 +41,7 @@ class _PostsPageState extends State<PostsPage> {
             controller: _scrollController,
             children: <Widget>[
               PostItem(
-             clickable: true,
+                clickable: true,
                 post: {
                   'name': 'post1',
                   'image': 'post1.jpg',
@@ -46,7 +50,7 @@ class _PostsPageState extends State<PostsPage> {
                 },
               ),
               PostItem(
-             clickable: true,
+                clickable: true,
                 post: {
                   'name': 'post2',
                   'image': 'post2.jpg',
@@ -55,7 +59,7 @@ class _PostsPageState extends State<PostsPage> {
                 },
               ),
               PostItem(
-             clickable: true,
+                clickable: true,
                 post: {
                   'name': 'post3',
                   'image': 'post3.jpg',
@@ -64,7 +68,7 @@ class _PostsPageState extends State<PostsPage> {
                 },
               ),
               PostItem(
-             clickable: true,
+                clickable: true,
                 post: {
                   'name': 'post4',
                   'image': 'post4.jpg',

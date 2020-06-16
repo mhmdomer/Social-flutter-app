@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social/bloc/scroll_to_top_bloc.dart';
+import 'package:social/UI/widgets/drawer.dart';
+import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
 import 'package:social/UI/custom_navigators/notifications_navigator.dart';
 import 'package:social/UI/custom_navigators/posts_navigator.dart';
 import 'package:social/UI/custom_navigators/profile_navigator.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
     scrollAnimator = ScrollAnimator(ticker: this);
     scrollAnimator.init();
-    _scrollBloc = ScrollToTopBloc();
+    _scrollBloc = BlocProvider.of<ScrollToTopBloc>(context);
   }
 
   void _selectTab(index) {
@@ -73,30 +74,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               onTap: _selectTab,
             ),
           ),
-          body: MultiBlocProvider(
-            providers: [
-              BlocProvider<ScrollToTopBloc>(create: (_) => _scrollBloc,),
-            ],
-            child: Stack(children: [
-              Offstage(
-                offstage: _currentTab != TabItem.posts,
-                child:
-                    PostsNavigator(navigatorKey: _navigatorKeys[TabItem.posts]),
+          body: Stack(children: [
+            Offstage(
+              offstage: _currentTab != TabItem.posts,
+              child:
+                  PostsNavigator(navigatorKey: _navigatorKeys[TabItem.posts]),
+            ),
+            Offstage(
+              offstage: _currentTab != TabItem.notifications,
+              child: NotificationsNavigator(
+                navigatorKey: _navigatorKeys[TabItem.notifications],
               ),
-              Offstage(
-                offstage: _currentTab != TabItem.notifications,
-                child: NotificationsNavigator(
-                  navigatorKey: _navigatorKeys[TabItem.notifications],
-                ),
+            ),
+            Offstage(
+              offstage: _currentTab != TabItem.profile,
+              child: ProfileNavigator(
+                navigatorKey: _navigatorKeys[TabItem.profile],
               ),
-              Offstage(
-                offstage: _currentTab != TabItem.profile,
-                child: ProfileNavigator(
-                  navigatorKey: _navigatorKeys[TabItem.profile],
-                ),
-              ),
-            ]),
-          ),
+            ),
+          ]),
+          drawer: MyDrawer(),
         ),
       ),
     );

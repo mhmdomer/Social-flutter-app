@@ -6,19 +6,21 @@ import 'package:social/UI/constants.dart';
 enum NotificationType { likedYourPost, commentedOnYourPost, likedYourComment }
 
 class NotificationItem extends StatelessWidget {
-  NotificationItem({@required this.type}) : assert(type != null);
+  NotificationItem({@required this.type, @required this.user, @required this.post});
   final NotificationType type;
+  final user;
+  final post;
   @override
   Widget build(BuildContext context) {
     return Container(
       color: [cornflowerBlue, Colors.transparent][Random().nextInt(2)],
       child: ListTile(
         onTap: () {
-          Navigator.pushNamed(context, '/post', arguments: 1);
+          Navigator.pushNamed(context, '/post', arguments: post);
         },
         leading: CircleAvatar(
           radius: 30,
-          backgroundImage: AssetImage('assets/avatar1.jpg'),
+          backgroundImage: user['image'] != null ? NetworkImage(user['image']) : AssetImage('assets/avatar1.jpg'),
         ),
         title: RichText(
           text: TextSpan(
@@ -28,7 +30,7 @@ class NotificationItem extends StatelessWidget {
             ),
             children: <TextSpan>[
               TextSpan(
-                  text: 'Omer Mustafa ',
+                  text: '${user['name']} ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               TextSpan(text: getText(type), style: TextStyle()),
             ],

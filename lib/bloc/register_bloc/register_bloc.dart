@@ -26,6 +26,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   Stream<RegisterState> showError(e) async* {
+    if(e is String) {
+      yield RegisterError(error: e);
+      return;
+    }
     if (e['email'] != null) {
       yield RegisterError(error: e['email'][0]);
     } else if (e['name'] != null) {

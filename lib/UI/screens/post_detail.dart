@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/UI/widgets/comment.dart';
 import 'package:social/UI/widgets/post.dart';
+import 'package:social/data/models/post.dart';
 
 class PostDetails extends StatefulWidget {
-  PostDetails({@required this.id});
-  final int id;
+  PostDetails({@required this.post});
+  final PostModel post;
   @override
   _PostDetailsState createState() => _PostDetailsState();
 }
@@ -20,12 +21,7 @@ class _PostDetailsState extends State<PostDetails> {
             padding: EdgeInsets.only(left: 10),
             child: PostItem(
               clickable: false,
-              post: {
-                'name': 'post3',
-                'image': 'post3.jpg',
-                'body':
-                    'lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set',
-              },
+              post: widget.post,
             ),
           ),
           ListView(

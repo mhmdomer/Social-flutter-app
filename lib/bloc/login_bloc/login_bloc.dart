@@ -26,6 +26,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> showError(e) async* {
+    if(e is String) {
+      yield LoginError(error: e);
+      return;
+    }
     final errors = e['errors'];
     if (errors != null) {
       if (errors['email'] != null) {

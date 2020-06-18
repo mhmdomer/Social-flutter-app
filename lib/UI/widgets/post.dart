@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/data/models/post.dart';
 
 class PostItem extends StatelessWidget {
   PostItem({@required this.post, @required this.clickable})
       : assert(post != null && clickable != null);
   final bool clickable;
-  final post;
+  final PostModel post;
   @override
   Widget build(BuildContext context) {
     void _onPressed() {
-      Navigator.pushNamed(context, '/post', arguments: 1);
+      Navigator.pushNamed(context, '/post', arguments: post);
     }
 
     return Padding(
@@ -37,12 +38,14 @@ class PostItem extends StatelessWidget {
                       CircleAvatar(
                         backgroundColor: Colors.transparent,
                         radius: 20,
-                        backgroundImage: AssetImage('assets/avatar1.jpg'),
+                        backgroundImage: post.user['image'] == null
+                            ? AssetImage('assets/avatar1.jpg')
+                            : NetworkImage(post.user['image']),
                       ),
                       SizedBox(
                         width: 10,
                       ),
-                      Text('Username', style: TextStyle(fontSize: 17)),
+                      Text(post.user['name'], style: TextStyle(fontSize: 17)),
                     ],
                   ),
                 ),
@@ -57,19 +60,19 @@ class PostItem extends StatelessWidget {
               child: InkWell(
                 onTap: clickable ? _onPressed : null,
                 child: Text(
-                  post['body'],
+                  post.body ?? '',
                   style: TextStyle(color: Colors.black87, fontSize: 16),
                 ),
               ),
             ),
-            InkWell(
+            post.imageUrl != null? InkWell(
               onTap: () => Navigator.pushNamed(context, '/photo',
-                  arguments: 'assets/${post['image']}'),
+                  arguments: post.imageUrl),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                child: Image.asset('assets/${post['image']}'),
+                child: Image.network(post.imageUrl),
               ),
-            ),
+            ) : Container(height: 0, width: 0,),
             Padding(
               padding: EdgeInsets.only(top: 10),
               child: Row(
@@ -77,7 +80,7 @@ class PostItem extends StatelessWidget {
                   IconButton(
                       icon: Icon(
                         Icons.thumb_up,
-                        color: cornflowerBlue,
+                        color: post.isFavorited ? cornflowerBlue : Colors.grey,
                       ),
                       onPressed: () {}),
                   IconButton(
@@ -95,7 +98,7 @@ class PostItem extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    '1232 Likes',
+                    '${post.favoriteCount} Likes',
                     style: TextStyle(
                       color: Colors.grey[800],
                       fontSize: 12,

@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
             return ModalProgressHUD(
               inAsyncCall: state is LoginLoading,
               dismissible: false,
-              progressIndicator: SpinKitCubeGrid(color: mediumBlue),
+              progressIndicator: SpinKitDoubleBounce(color: mediumBlue),
               child: Container(
                 child: Column(
                   children: <Widget>[

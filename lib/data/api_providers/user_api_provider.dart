@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social/data/api_providers/api_constants.dart';
@@ -22,8 +24,10 @@ class UserApiProvider extends BaseProvider {
     } on DioError catch (e) {
       if(e.response != null) {
         throw e.response.data['errors'];
+      } else if(e.error is SocketException) {
+        throw 'Check Your internet connection and try again!';
       } else {
-        print(e.message);
+        throw 'Sorry Something went wrong!';
       }
     }
   }
@@ -45,8 +49,10 @@ class UserApiProvider extends BaseProvider {
     } on DioError catch(e) {
       if(e.response != null) {
         throw e.response.data;
+      } else if(e.error is SocketException) {
+        throw 'Check Your internet connection and try again!';
       } else {
-        print(e.message);
+        throw 'Sorry Something went wrong!';
       }
     }
   }

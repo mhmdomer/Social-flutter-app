@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   checkToken() async {
     final preferences = await SharedPreferences.getInstance();
     final token = preferences.getString('token');
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     if(token == null || token == '') {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Welcome()));
     } else {

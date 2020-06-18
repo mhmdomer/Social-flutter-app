@@ -21,8 +21,8 @@ class PostsNavigator extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => PostsPage());
             break;
           case '/post':
-            if(settings.arguments is int) {
-              return MaterialPageRoute(builder: (_) => PostDetails(id: settings.arguments));
+            if(settings.arguments != null) {
+              return MaterialPageRoute(builder: (_) => PostDetails(post: settings.arguments));
             }
             break;
           case '/photo':

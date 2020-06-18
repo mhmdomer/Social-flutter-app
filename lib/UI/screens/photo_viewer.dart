@@ -9,7 +9,7 @@ class PhotoViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: PhotoView(
-        imageProvider: AssetImage(imageUrl),
+        imageProvider: NetworkImage(imageUrl),
       ),
     );
   }

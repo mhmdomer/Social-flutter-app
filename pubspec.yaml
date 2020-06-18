@@ -29,6 +29,7 @@ dev_dependencies:
   rflutter_alert: ^1.0.3
   flutter_spinkit: ^4.1.2+1
   http: ^0.12.1
+  rxdart: ^0.24.1
 
 flutter:
   uses-material-design: true

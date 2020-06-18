@@ -102,7 +102,7 @@ class _RegisterState extends State<Register> {
             return ModalProgressHUD(
               inAsyncCall: state is RegisterLoading,
               dismissible: false,
-              progressIndicator: SpinKitCubeGrid(color: mediumBlue),
+              progressIndicator: SpinKitDoubleBounce(color: mediumBlue),
               child: Container(
                 child: Column(
                   children: <Widget>[
@@ -167,6 +167,7 @@ class _RegisterState extends State<Register> {
                                       height: 10,
                                     ),
                                     TextFormField(
+                                      obscureText: true,
                                       validator: _passwordValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,

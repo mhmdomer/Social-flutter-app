@@ -4,8 +4,6 @@ import 'package:social/data/models/comment.dart';
 class CommentsRepository {
   final _provider = CommentApiProvider();
 
-  Future<List<CommentModel>> getComments(postId) => _provider.getComments(postId);
-
   Future<CommentModel> addComment(postId, data) => _provider.addComment(postId, data);
 
   Future<CommentModel> editComment(commentId, data) => _provider.editComment(commentId, data);

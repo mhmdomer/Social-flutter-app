@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/post.dart';
-import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
 import 'package:social/data/api_providers/api_constants.dart';
 import 'package:social/data/api_providers/base_list_provider.dart';
@@ -30,7 +30,7 @@ class _PostsPageState extends State<PostsPage> {
     super.initState();
     _postsBloc = ScrollableListBloc(
       provider: BaseListProvider(
-        paginator: Pagination(url: '$baseUrl/posts'),
+        paginator: Paginator(url: postListUrl),
         listFromJson: PostModel.listFromJson,
       ),
     )..add(LoadList());

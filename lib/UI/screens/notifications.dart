@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/notification.dart';
-import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
 import 'package:social/data/api_providers/api_constants.dart';
 import 'package:social/data/api_providers/base_list_provider.dart';
@@ -27,7 +27,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     super.initState();
     _notificationsBloc = ScrollableListBloc(
       provider: BaseListProvider(
-          paginator: Pagination(url: '$baseUrl/notifications'),
+          paginator: Paginator(url: notificationListUrl),
           listFromJson: NotificationModel.listFromJson),
     )..add(LoadList());
     _completer = Completer<void>();

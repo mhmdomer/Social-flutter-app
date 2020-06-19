@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/UI/screens/splash.dart';
-import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/simple_bloc_delegate.dart';
-import 'package:social/bloc/token_bloc.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => TokenBloc(),
-        ),
         BlocProvider(
           create: (_) => ScrollToTopBloc(),
         ),

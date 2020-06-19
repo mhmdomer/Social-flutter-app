@@ -1,28 +1,8 @@
 import 'package:social/data/api_providers/api_constants.dart';
 import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/post.dart';
-import 'package:social/data/pagination.dart';
 
 class PostApiProvider extends BaseProvider {
-  final Pagination postsPaginator =
-      Pagination(url: '$baseUrl/posts');
-
-  reset() => postsPaginator.reset();
-  
-  Future getPosts() async {
-    if (postsPaginator.hasMore()) {
-      final posts = await postsPaginator.getData();
-      return {
-        'posts' : PostModel.listFromJson(posts),
-        'hasMore' : postsPaginator.hasMore(),
-      };
-    } else {
-      return {
-        'posts' : [],
-        'hasMore' : false
-      };
-    }
-  }
 
   Future<PostModel> getPost(id) async {
     final response = await client.get('$baseUrl/posts/$id');

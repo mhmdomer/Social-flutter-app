@@ -1,11 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Pagination {
-  Pagination({@required this.url}) {
+class Paginator {
+  Paginator({@required this.url}) {
     client.options.headers['Accept'] = 'application/json';
   }
   bool isFirst = true;

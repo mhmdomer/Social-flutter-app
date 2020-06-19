@@ -8,12 +8,7 @@ class NotificationModel {
   final user;
   final post;
 
-  static List<NotificationModel> fromJson(json) {
-
-  }
-
   static List listFromJson(notifications) {
-    print(notifications[0]);
     return notifications.map((notification) => NotificationModel(
       type: _mapStringToType(notification['data']['type']),
       id: notification['id'],

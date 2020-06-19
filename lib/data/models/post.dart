@@ -20,8 +20,7 @@ class PostModel {
   final String body, imageUrl;
   final user, category;
 
-  static PostModel fromJson(json) {
-    final post = jsonDecode(json);
+  static PostModel fromJson(post) {
     return PostModel(
       id: post['id'],
       userId: post['user_id'],

@@ -4,15 +4,6 @@ import 'package:social/data/models/comment.dart';
 
 class CommentApiProvider extends BaseProvider{
 
-  Future<List<CommentModel>> getComments(postId) async {
-    final response = await this.client.get('$baseUrl/posts/$postId/comments');
-    if(response.statusCode == 200) {
-      return CommentModel.listFromJson(response.data);
-    } else {
-      throw response.data['message'];
-    }
-  }
-
   Future<CommentModel> addComment(postId, data) async {
     final response = await client.post('$baseUrl/posts/$postId/comments', data: data);
     if(response.statusCode == 200) {

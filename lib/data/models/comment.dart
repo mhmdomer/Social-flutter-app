@@ -13,7 +13,24 @@ class CommentModel {
   final user;
   final String body;
 
-  static List<CommentModel> listFromJson(json) {}
+  static CommentModel fromJson(comment) {
+    return CommentModel(
+      id: comment['id'],
+      body: comment['body'],
+      user: comment['user'],
+      postId: comment['post_id'],
+      createAt: comment['created_at'],
+    );
+  }
 
-  static CommentModel fromJson(json) {}
+  static List listFromJson(comments) {
+    comments.map((comment) => CommentModel(
+      id: comment['id'],
+      body: comment['body'],
+      user: comment['user'],
+      postId: comment['post_id'],
+      createAt: comment['created_at'],
+    )).toList();
+  }
+
 }

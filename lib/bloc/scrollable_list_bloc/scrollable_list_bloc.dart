@@ -8,9 +8,9 @@ import 'package:social/data/api_providers/base_list_provider.dart';
 part 'scrollable_list_event.dart';
 part 'scrollable_list_state.dart';
 
-class ScrollableListBloc<T extends BaseListProvider> extends Bloc<ScrollableListEvent, ScrollableListState> {
+class ScrollableListBloc extends Bloc<ScrollableListEvent, ScrollableListState> {
   ScrollableListBloc({this.provider});
-  final T provider;
+  final BaseListProvider provider;
 
   Stream<Transition<ScrollableListEvent, ScrollableListState>> transformEvents(
     Stream<ScrollableListEvent> events,

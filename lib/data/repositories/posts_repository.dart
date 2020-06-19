@@ -4,8 +4,6 @@ import 'package:social/data/models/post.dart';
 class PostsRepository {
   final _provider = PostApiProvider();
 
-  Future<List<PostModel>> getPosts() => _provider.getPosts();
-
   Future<PostModel> addPost(data) => _provider.createPost(data);
 
   Future<PostModel> editPost(postId, data) => _provider.editPost(postId, data);

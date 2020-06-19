@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social/UI/widgets/drawer.dart';
-import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/UI/custom_navigators/notifications_navigator.dart';
 import 'package:social/UI/custom_navigators/posts_navigator.dart';
 import 'package:social/UI/custom_navigators/profile_navigator.dart';

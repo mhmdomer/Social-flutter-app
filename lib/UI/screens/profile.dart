@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/UI/helpers/profile_clipper.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/follow_count.dart';

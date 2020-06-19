@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:social/UI/constants.dart';
-import 'package:social/bloc/notifications_bloc/notifications_bloc.dart';
-import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/notification.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:social/data/api_providers/notification_api_provider.dart';
+import 'package:social/bloc/scroll_bloc/scroll_to_top_bloc.dart';
+import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
+import 'package:social/data/api_providers/api_constants.dart';
+import 'package:social/data/api_providers/base_list_provider.dart';
+import 'package:social/data/models/notification.dart';
+import 'package:social/data/pagination.dart';
 
 class NotificationsPage extends StatefulWidget {
   @override
@@ -17,36 +20,40 @@ class NotificationsPage extends StatefulWidget {
 
 class _NotificationsPageState extends State<NotificationsPage> {
   final _scrollController = ScrollController();
-  NotificationsBloc _notificationsBloc;
-  Completer _refreshCompleter;
+  ScrollableListBloc _notificationsBloc;
+  Completer _completer;
   @override
   initState() {
     super.initState();
-    _notificationsBloc = NotificationsBloc(provider: NotificationApiProvider())
-      ..add(LoadNotifications());
-    _refreshCompleter = Completer();
+    _notificationsBloc = ScrollableListBloc(
+      provider: BaseListProvider(
+          paginator: Pagination(url: '$baseUrl/notifications'),
+          listFromJson: NotificationModel.listFromJson),
+    )..add(LoadList());
+    _completer = Completer<void>();
   }
 
-  Widget showList(NotificationsState state) {
-    if (state is NotificationsInitial || state is NotificationsLoading) {
+  Widget showList(ScrollableListState state) {
+    if (state is ScrollableListInitial || state is ListLoading) {
       return Center(
         child: SpinKitDoubleBounce(color: mediumBlue),
       );
     }
-    if (state is NotificationsError) {
+    if (state is ListError) {
       return Center(
         child: Text(state.error.toString()),
       );
     }
-    if (state is NotificationsLoaded) {
-      if (state.data['notifications'].isEmpty) {
+    if (state is ListLoaded) {
+      if (state.data['list'].isEmpty) {
         return Center(child: Text('No Notifications yet!'));
       } else {
         return ListView.builder(
+          physics: AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
           itemBuilder: (context, index) {
-            if (index < state.data['notifications'].length) {
-              final notification = state.data['notifications'][index];
+            if (index < state.data['list'].length) {
+              final notification = state.data['list'][index];
               print(notification.type);
               return NotificationItem(
                 post: notification.post,
@@ -67,7 +74,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               );
             }
           },
-          itemCount: state.data['notifications'].length + 1,
+          itemCount: state.data['list'].length + 1,
         );
       }
     }
@@ -76,35 +83,39 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     print('rebuilding notifications');
-    return RefreshIndicator(
-      onRefresh: () {
-        _notificationsBloc =
-            NotificationsBloc(provider: NotificationApiProvider())
-              ..add(LoadNotifications());
-        return _refreshCompleter.future;
-      },
-      child: BlocProvider(
-        create: (context) => _notificationsBloc,
-        child: BlocConsumer(
-          listener: (context, state) {
-            if(state is NotificationsLoaded) {
-              _refreshCompleter?.complete();
-              _refreshCompleter = Completer();
-            }
-          },
-          builder: (context, state) =>
-              BlocListener<ScrollToTopBloc, ScrollToTopState>(
-            listener: (context, state) {
-              if (state is ScrolledToTop &&
-                  state.item == TabItem.notifications) {
-                _scrollController.animateTo(0,
-                    duration: Duration(seconds: 1), curve: Curves.ease);
-              }
-            },
-            child: showList(state),
-          ),
-          bloc: _notificationsBloc,
-        ),
+    return BlocProvider(
+      create: (context) => _notificationsBloc,
+      child: BlocConsumer(
+        bloc: _notificationsBloc,
+        listener: (context, state) {
+          if (state is ListLoaded) {
+            _completer?.complete();
+            _completer = Completer<void>();
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: RefreshIndicator(
+              onRefresh: () {
+                _notificationsBloc.add(RefreshList());
+                return _completer.future;
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: BlocListener<ScrollToTopBloc, ScrollToTopState>(
+                  listener: (context, state) {
+                    if (state is ScrolledToTop &&
+                        state.item == TabItem.notifications) {
+                      _scrollController.animateTo(0,
+                          duration: Duration(seconds: 1), curve: Curves.ease);
+                    }
+                  },
+                  child: showList(state),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

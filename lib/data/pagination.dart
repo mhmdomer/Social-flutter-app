@@ -5,10 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Pagination {
-  Pagination({@required this.url, @required this.token}) {
+  Pagination({@required this.url}) {
     client.options.headers['Accept'] = 'application/json';
   }
-  final String token;
   bool isFirst = true;
   final String url;
   String nextUrl;
@@ -39,4 +38,7 @@ class Pagination {
   bool hasMore() {
     return isFirst || nextUrl != null;
   }
+
+  reset() => isFirst = true;
+  
 }

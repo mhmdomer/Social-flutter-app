@@ -5,8 +5,10 @@ import 'package:social/data/pagination.dart';
 
 class PostApiProvider extends BaseProvider {
   final Pagination postsPaginator =
-      Pagination(token: BaseProvider.token, url: '$baseUrl/posts');
+      Pagination(url: '$baseUrl/posts');
 
+  reset() => postsPaginator.reset();
+  
   Future getPosts() async {
     if (postsPaginator.hasMore()) {
       final posts = await postsPaginator.getData();

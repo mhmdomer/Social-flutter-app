@@ -5,7 +5,9 @@ import 'package:social/data/pagination.dart';
 
 class NotificationApiProvider extends BaseProvider {
 final Pagination notificationsPaginator =
-      Pagination(token: BaseProvider.token, url: '$baseUrl/notifications');
+      Pagination(url: '$baseUrl/notifications');
+
+  reset() => notificationsPaginator.reset();
       
   Future getNotifications() async {
     if (notificationsPaginator.hasMore()) {

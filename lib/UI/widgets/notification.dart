@@ -2,25 +2,26 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/data/models/notification.dart';
 
 enum NotificationType { likedYourPost, commentedOnYourPost, likedYourComment }
 
 class NotificationItem extends StatelessWidget {
-  NotificationItem({@required this.type, @required this.user, @required this.post});
-  final NotificationType type;
-  final user;
-  final post;
+  NotificationItem({@required this.notification});
+  final NotificationModel notification;
   @override
   Widget build(BuildContext context) {
     return Container(
       color: [cornflowerBlue, Colors.transparent][Random().nextInt(2)],
       child: ListTile(
         onTap: () {
-          Navigator.pushNamed(context, '/post', arguments: post);
+          Navigator.pushNamed(context, '/post', arguments: notification.post);
         },
         leading: CircleAvatar(
           radius: 30,
-          backgroundImage: user['image'] != null ? NetworkImage(user['image']) : AssetImage('assets/avatar1.jpg'),
+          backgroundImage: notification.user['image'] != null
+              ? NetworkImage(notification.user['image'])
+              : AssetImage('assets/avatar1.jpg'),
         ),
         title: RichText(
           text: TextSpan(
@@ -30,9 +31,9 @@ class NotificationItem extends StatelessWidget {
             ),
             children: <TextSpan>[
               TextSpan(
-                  text: '${user['name']} ',
+                  text: '${notification.user['name']} ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: getText(type), style: TextStyle()),
+              TextSpan(text: getText(notification.type), style: TextStyle()),
             ],
           ),
         ),
@@ -43,7 +44,7 @@ class NotificationItem extends StatelessWidget {
             style: TextStyle(color: Colors.grey[300]),
           ),
         ),
-        trailing: getIcon(type),
+        trailing: getIcon(notification.type),
       ),
     );
   }

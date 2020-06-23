@@ -17,7 +17,7 @@ class ProfileNavigator extends StatelessWidget {
         String name = settings.name;
         switch (name) {
           case '/':
-            return MaterialPageRoute(builder: (_) => ProfilePage());
+            return MaterialPageRoute(builder: (_) => ProfilePage(userId: 1,));
             break;
           case '/post':
             if(settings.arguments != null) {

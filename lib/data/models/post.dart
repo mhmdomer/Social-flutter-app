@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 class PostModel {
@@ -11,11 +9,12 @@ class PostModel {
     @required this.imageUrl,
     @required this.isFavorited,
     @required this.favoriteCount,
+    @required this.commentCount,
     @required this.user,
     @required this.category,
   });
 
-  final int id, userId, categoryId, favoriteCount;
+  final int id, userId, categoryId, favoriteCount, commentCount;
   final bool isFavorited;
   final String body, imageUrl;
   final user, category;
@@ -27,8 +26,9 @@ class PostModel {
       categoryId: post['category_id'],
       body: post['body'],
       imageUrl: post['image'],
-      isFavorited: post['isFavorited'],
+      isFavorited: post['isFavorited'] != 0,
       favoriteCount: post['favoriteCount'],
+      commentCount: post['commentCount'],
       user: post['user'],
       category: post['category'],
     );
@@ -42,8 +42,9 @@ class PostModel {
         categoryId: post['category_id'],
         body: post['body'],
         imageUrl: post['image'],
-        isFavorited: post['isFavorited'] == 0 ? false : true,
+        isFavorited: post['isFavorited'] != 0,
         favoriteCount: post['favoriteCount'],
+        commentCount: post['commentCount'],
         user: post['user'],
         category: post['category'],
       ),

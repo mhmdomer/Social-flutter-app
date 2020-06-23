@@ -104,13 +104,13 @@ class PostItem extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  // SizedBox(
+                  //   width: 20,
+                  // ),
                   FlatButton(
                     onPressed: clickable ? _onPressed : null,
                     child: Text(
-                      '1232 Comments',
+                      '${post.commentCount} comments',
                       style: TextStyle(
                         color: Colors.grey[800],
                         fontSize: 12,

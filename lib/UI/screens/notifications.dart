@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:social/UI/constants.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/notification.dart';
+import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
 import 'package:social/data/api_providers/api_constants.dart';
@@ -36,7 +35,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget showList(ScrollableListState state) {
     if (state is ScrollableListInitial || state is ListLoading) {
       return Center(
-        child: SpinKitDoubleBounce(color: mediumBlue),
+        child: getLoadingIndicator(),
       );
     }
     if (state is ListError) {
@@ -54,16 +53,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
           itemBuilder: (context, index) {
             if (index < state.data['list'].length) {
               final notification = state.data['list'][index];
-              print(notification.type);
               return NotificationItem(
-                post: notification.post,
-                type: notification.type,
-                user: notification.user,
+                notification: notification,
               );
             } else if (state.data['hasMore']) {
               return Container(
                 padding: EdgeInsets.all(14),
-                child: Center(child: SpinKitDoubleBounce(color: mediumBlue)),
+                child: Center(child: getLoadingIndicator()),
               );
             } else {
               return Padding(
@@ -100,18 +96,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 _notificationsBloc.add(RefreshList());
                 return _completer.future;
               },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: BlocListener<ScrollToTopBloc, ScrollToTopState>(
-                  listener: (context, state) {
-                    if (state is ScrolledToTop &&
-                        state.item == TabItem.notifications) {
-                      _scrollController.animateTo(0,
-                          duration: Duration(seconds: 1), curve: Curves.ease);
-                    }
-                  },
-                  child: showList(state),
-                ),
+              child: BlocListener<ScrollToTopBloc, ScrollToTopState>(
+                listener: (context, state) {
+                  if (state is ScrolledToTop &&
+                      state.item == TabItem.notifications) {
+                    _scrollController.animateTo(0,
+                        duration: Duration(seconds: 1), curve: Curves.ease);
+                  }
+                },
+                child: showList(state),
               ),
             ),
           );

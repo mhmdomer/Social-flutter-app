@@ -17,18 +17,17 @@ class Paginator {
     if (hasMore()) {
       try {
         nextUrl = isFirst ? url : nextUrl;
-        print('$nextUrl');
         final response = await client.get('$nextUrl');
         if (response.statusCode == 200) {
           final result = response.data;
           final data = result['data']['data'];
           nextUrl = result['next_page_url'];
-          print(nextUrl);
           isFirst = false;
           return data;
         }
       } on DioError catch (e) {
         print(e);
+        throw e.toString();
       }
     } else {}
   }

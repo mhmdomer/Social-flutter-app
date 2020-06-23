@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:social/data/models/comment.dart';
 
 class Comment extends StatelessWidget {
+  Comment({this.comment});
+  final CommentModel comment;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,7 +18,9 @@ class Comment extends StatelessWidget {
             },
             child: CircleAvatar(
               radius: 20,
-              backgroundImage: AssetImage('assets/avatar1.jpg'),
+              backgroundImage: comment.user['image'] == null
+                  ? AssetImage('assets/avatar1.jpg')
+                  : NetworkImage(comment.user['image']),
             ),
           ),
           Expanded(
@@ -28,23 +34,22 @@ class Comment extends StatelessWidget {
                       style: DefaultTextStyle.of(context).style,
                       children: [
                         TextSpan(
-                          text: 'hello :  ',
+                          text: '${comment.user['name']} :  ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
                           text:
-                              'the comment comment the comment comment the comment comment comment comment the comment comment the comment comment',
+                              comment.body,
                         ),
                       ],
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.thumb_up),
+                    icon: Icon(Icons.thumb_up, color: comment.isFavorited ? Colors.blue : Colors.grey,),
                     onPressed: () {},
                     iconSize: 18,
                   ),
                   Container(
-                    // padding: EdgeInsets.only(top: 8.0),
                     child: Text(
                       '1 hour ago',
                       style: TextStyle(color: Colors.grey[500]),

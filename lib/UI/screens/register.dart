@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/UI/helpers/curved_painter.dart';
+import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/screens/login.dart';
 import 'package:social/UI/widgets/button.dart';
 import 'package:social/bloc/register_bloc/register_bloc.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -102,7 +102,7 @@ class _RegisterState extends State<Register> {
             return ModalProgressHUD(
               inAsyncCall: state is RegisterLoading,
               dismissible: false,
-              progressIndicator: SpinKitDoubleBounce(color: mediumBlue),
+              progressIndicator: getLoadingIndicator(),
               child: Container(
                 child: Column(
                   children: <Widget>[

@@ -6,6 +6,7 @@ const cornflowerBlue = Color(0xFF758BFD);
 const morningBlue = Color(0xFF8AA399);
 const greyBlue = Color(0xFFD5DFE5);
 const onyx = Color(0xFF393D3F);
+const scrollThreshold = 200.0;
 
 
 const kTextFieldDecoration = InputDecoration(

@@ -21,7 +21,7 @@ class Paginator {
         if (response.statusCode == 200) {
           final result = response.data;
           final data = result['data']['data'];
-          nextUrl = result['next_page_url'];
+          nextUrl = result['data']['next_page_url'];
           isFirst = false;
           return data;
         }

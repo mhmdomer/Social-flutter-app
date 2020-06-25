@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/UI/helpers/scrollable_list_mixin.dart';
 import 'package:social/UI/helpers/showList.dart';
 import 'package:social/UI/widgets/post.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
@@ -19,30 +20,25 @@ class PostDetails extends StatefulWidget {
   _PostDetailsState createState() => _PostDetailsState();
 }
 
-class _PostDetailsState extends State<PostDetails> {
-  final _scrollController = ScrollController();
-  ScrollableListBloc _bloc;
-  Completer _completer;
-  final _scrollThreshold = 200.0;
+class _PostDetailsState extends State<PostDetails> with ScrollableListMixin {
 
   @override
   initState() {
     super.initState();
-    _bloc = ScrollableListBloc(
+    bloc = ScrollableListBloc(
       provider: BaseListProvider(
           paginator: Paginator(url: getCommentUrl(postId: widget.post.id)),
           listFromJson: CommentModel.listFromJson),
     )..add(LoadList());
-    _scrollController.addListener(_onScroll);
-    _completer = Completer<void>();
+    initScrollableList();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _bloc,
+      create: (context) => bloc,
       child: BlocBuilder(
-        bloc: _bloc,
+        bloc: bloc,
         builder: (context, state) {
           return Column(
             children: <Widget>[
@@ -53,6 +49,7 @@ class _PostDetailsState extends State<PostDetails> {
                     return Completer().future;
                   },
                   child: SingleChildScrollView(
+                    controller: getScrollController(),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -92,12 +89,5 @@ class _PostDetailsState extends State<PostDetails> {
         },
       ),
     );
-  }
-  void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _bloc.add(LoadList());
-    }
   }
 }

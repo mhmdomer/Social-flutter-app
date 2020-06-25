@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/data/models/post.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PostItem extends StatelessWidget {
   PostItem({@required this.post, @required this.clickable})
@@ -40,7 +41,7 @@ class PostItem extends StatelessWidget {
                         radius: 20,
                         backgroundImage: post.user['image'] == null
                             ? AssetImage('assets/avatar1.jpg')
-                            : NetworkImage(post.user['image']),
+                            : CachedNetworkImage(imageUrl: post.user['image']),
                       ),
                       SizedBox(
                         width: 10,
@@ -65,14 +66,32 @@ class PostItem extends StatelessWidget {
                 ),
               ),
             ),
-            post.imageUrl != null? InkWell(
-              onTap: () => Navigator.pushNamed(context, '/photo',
-                  arguments: post.imageUrl),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                child: Image.network(post.imageUrl),
-              ),
-            ) : Container(height: 0, width: 0,),
+            post.imageUrl != null
+                ? InkWell(
+                    onTap: () => Navigator.pushNamed(context, '/photo',
+                        arguments: post.imageUrl),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      child: CachedNetworkImage(
+                        imageUrl: post.imageUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) {
+                          return Container(
+                            height: 300,
+                            width: double.infinity,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 0,
+                    width: 0,
+                  ),
             Padding(
               padding: EdgeInsets.only(top: 10),
               child: Row(

@@ -1,4 +1,4 @@
-const baseUrl = 'https://vampiresocial.herokuapp.com/api/v1';
+const baseUrl = 'http://phplaravel-430765-1350704.cloudwaysapps.com/api/v1';
 const postListUrl = '$baseUrl/posts';
 const notificationListUrl = '$baseUrl/notifications';
 var test_var = '';

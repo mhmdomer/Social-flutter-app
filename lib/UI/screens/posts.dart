@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/UI/helpers/scrollable_list_mixin.dart';
 import 'package:social/UI/helpers/showList.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
@@ -18,35 +17,29 @@ class PostsPage extends StatefulWidget {
   _PostsPageState createState() => _PostsPageState();
 }
 
-class _PostsPageState extends State<PostsPage> {
-  final _scrollController = ScrollController();
-  ScrollableListBloc _postsBloc;
-  Completer _completer;
-  final _scrollThreshold = 200.0;
+class _PostsPageState extends State<PostsPage> with ScrollableListMixin {
 
   @override
   void initState() {
     super.initState();
-    _postsBloc = ScrollableListBloc(
+    bloc = ScrollableListBloc(
       provider: BaseListProvider(
         paginator: Paginator(url: postListUrl),
         listFromJson: PostModel.listFromJson,
       ),
     )..add(LoadList());
-    _scrollController.addListener(_onScroll);
-    _completer = Completer<void>();
+    initScrollableList();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _postsBloc,
+      create: (context) => bloc,
       child: BlocConsumer(
-        bloc: _postsBloc,
+        bloc: bloc,
         listener: (context, state) {
           if (state is ListLoaded) {
-            _completer?.complete();
-            _completer = Completer<void>();
+            completeCompleter();
           }
         },
         builder: (context, state) {
@@ -63,20 +56,20 @@ class _PostsPageState extends State<PostsPage> {
             ),
             body: RefreshIndicator(
               onRefresh: () {
-                _postsBloc.add(RefreshList());
-                return _completer.future;
+                bloc.add(RefreshList());
+                return completerFuture();
               },
               child: Padding(
                 padding: EdgeInsets.only(left: 10, top: 15),
                 child: BlocListener<ScrollToTopBloc, ScrollToTopState>(
                   listener: (context, state) {
                     if (state is ScrolledToTop && state.item == TabItem.posts) {
-                      _scrollController.animateTo(0,
-                          duration: Duration(seconds: 1), curve: Curves.ease);
+                      animateScroll();
                     }
                   },
                   child: SingleChildScrollView(
-                    controller: _scrollController,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    controller: getScrollController(),
                     child: showPostList(
                       state,
                     ),
@@ -88,13 +81,5 @@ class _PostsPageState extends State<PostsPage> {
         },
       ),
     );
-  }
-
-  void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _postsBloc.add(LoadList());
-    }
   }
 }

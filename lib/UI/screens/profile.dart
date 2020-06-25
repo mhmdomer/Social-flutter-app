@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social/UI/constants.dart';
 import 'package:social/UI/helpers/profile_clipper.dart';
+import 'package:social/UI/helpers/scrollable_list_mixin.dart';
 import 'package:social/UI/helpers/showList.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/widgets/follow_count.dart';
@@ -12,6 +13,7 @@ import 'package:social/data/api_providers/api_constants.dart';
 import 'package:social/data/api_providers/base_list_provider.dart';
 import 'package:social/data/models/post.dart';
 import 'package:social/data/pagination.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.userId});
@@ -20,19 +22,17 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  final _scrollController = ScrollController();
-  ScrollableListBloc _bloc;
-  Completer _completer;
+class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
+
   @override
   initState() {
     super.initState();
-    _bloc = ScrollableListBloc(
+    bloc = ScrollableListBloc(
       provider: BaseListProvider(
           paginator: Paginator(url: getUserPostsUrl(userId: widget.userId)),
           listFromJson: PostModel.listFromJson),
     )..add(LoadList());
-    _completer = Completer<void>();
+    initScrollableList();
   }
 
   Widget getList(ScrollableListState state) {
@@ -49,30 +49,28 @@ class _ProfilePageState extends State<ProfilePage> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return BlocProvider(
-      create: (context) => _bloc,
+      create: (context) => bloc,
       child: BlocConsumer(
-        bloc: _bloc,
+        bloc: bloc,
         listener: (context, state) {
           if (state is ListLoaded) {
-            _completer?.complete();
-            _completer = Completer<void>();
+            completeCompleter();
           }
         },
         builder: (context, state) {
           return BlocListener<ScrollToTopBloc, ScrollToTopState>(
             listener: (context, state) {
               if (state is ScrolledToTop && state.item == TabItem.profile) {
-                _scrollController.animateTo(0,
-                    duration: Duration(seconds: 1), curve: Curves.ease);
+                animateScroll();
               }
             },
             child: RefreshIndicator(
               onRefresh: () {
-                _bloc.add(RefreshList());
-                return _completer.future;
+                bloc.add(RefreshList());
+                return completerFuture();
               },
               child: SingleChildScrollView(
-                controller: _scrollController,
+                controller: getScrollController(),
                 child: Column(
                   children: <Widget>[
                     Stack(

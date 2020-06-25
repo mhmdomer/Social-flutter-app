@@ -8,7 +8,8 @@ import 'package:social/data/api_providers/base_list_provider.dart';
 part 'scrollable_list_event.dart';
 part 'scrollable_list_state.dart';
 
-class ScrollableListBloc extends Bloc<ScrollableListEvent, ScrollableListState> {
+class ScrollableListBloc
+    extends Bloc<ScrollableListEvent, ScrollableListState> {
   ScrollableListBloc({this.provider});
   final BaseListProvider provider;
 
@@ -28,22 +29,28 @@ class ScrollableListBloc extends Bloc<ScrollableListEvent, ScrollableListState> 
   @override
   Stream<ScrollableListState> mapEventToState(
       ScrollableListEvent event) async* {
-        final currentState = state;
+    final currentState = state;
     print(_hasReachedMax(currentState));
-    if(event is LoadList && !_hasReachedMax(currentState)) {
+    if (event is LoadList && !_hasReachedMax(currentState)) {
       try {
+        var list = [];
+        if (currentState is ListLoaded) {
+          list = currentState.data['list'];
+        }
         final data = await provider.getList();
-        print('');
+        data['list'] = list + data['list'];
         yield ListLoaded(data: data);
-      } catch(e) {
+      } catch (e) {
         yield ListError(error: e);
         print(e);
       }
     }
-    if(event is RefreshList) {
+    if (event is RefreshList) {
       provider.reset();
-      if(currentState is ListLoaded)
-      currentState.data['hasMore'] = true;
+      if (currentState is ListLoaded) {
+        currentState.data['hasMore'] = true;
+        currentState.data['list'] = [];
+      }
       add(LoadList());
     }
   }

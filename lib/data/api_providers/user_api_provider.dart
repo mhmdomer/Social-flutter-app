@@ -58,7 +58,7 @@ class UserApiProvider extends BaseProvider {
   }
 
   Future<UserModel> getUser(id) async {
-    final response = await client.get('$baseUrl/user/$id');
+    final response = await client.get('$baseUrl/users/$id');
     if (response.statusCode == 200) {
       return UserModel.fromJson(response.data);
     } else {

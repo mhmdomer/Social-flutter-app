@@ -21,6 +21,7 @@ void main() {
           backgroundColor: greyBlue,
           cardColor: cornflowerBlue,
           buttonColor: cornflowerBlue,
+          fontFamily: 'Mont'
         ),
         home: SplashScreen(),
       ),

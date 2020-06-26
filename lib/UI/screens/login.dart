@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/UI/helpers/AuthenticationPageMixin.dart';
 import 'package:social/UI/helpers/curved_painter.dart';
 import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/screens/register.dart';
 import 'package:social/UI/widgets/button.dart';
 import 'package:social/bloc/login_bloc/login_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
+class _LoginState extends State<Login> with AuthenticationPageMixin {
   LoginBloc bloc;
   TextEditingController email, password;
   @override
@@ -26,50 +24,6 @@ class _LoginState extends State<Login> {
     bloc = LoginBloc();
     email = TextEditingController();
     password = TextEditingController();
-  }
-
-  String _emailValidator(value) {
-    if (RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    ).hasMatch(
-      value.trim(),
-    )) return null;
-    return 'email not valid';
-  }
-
-  String _passwordValidator(String value) {
-    if (value.trim().length < 6) {
-      return 'password must be at least 6 characters';
-    }
-    return null;
-  }
-
-  showAlert(error) {
-    Alert(
-      closeFunction: () {},
-      context: context,
-      type: AlertType.error,
-      title: "Error!",
-      desc: "$error.",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "Retry",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          width: 120,
-        )
-      ],
-    ).show();
-  }
-
-  Future setPreferences(LoginSuccess state) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt('id', state.user.id);
-    prefs.setString('name', state.user.name);
-    prefs.setString('email', state.user.email);
-    prefs.setString('imageUrl', state.user.imageUrl);
   }
 
   @override
@@ -81,7 +35,7 @@ class _LoginState extends State<Login> {
           bloc: bloc,
           listener: (context, state) async {
             if (state is LoginError) {
-              showAlert(state.error);
+              showAlert(state.error, context);
             } else if (state is LoginSuccess) {
               await setPreferences(state);
               Navigator.pushReplacement(
@@ -136,12 +90,12 @@ class _LoginState extends State<Login> {
                               height: 20,
                             ),
                             Form(
-                              key: _formKey,
+                              key: formKey,
                               child: Container(
                                 child: Column(
                                   children: <Widget>[
                                     TextFormField(
-                                      validator: _emailValidator,
+                                      validator: emailValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
@@ -155,7 +109,7 @@ class _LoginState extends State<Login> {
                                     ),
                                     TextFormField(
                                       obscureText: true,
-                                      validator: _passwordValidator,
+                                      validator: passwordValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
@@ -171,7 +125,7 @@ class _LoginState extends State<Login> {
                                       text: 'Login',
                                       color: mediumBlue,
                                       onPress: () {
-                                        if (_formKey.currentState.validate()) {
+                                        if (formKey.currentState.validate()) {
                                           final credentials = {
                                             'email': email.text.trim(),
                                             'password': password.text.trim()

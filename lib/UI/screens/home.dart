@@ -102,6 +102,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 offstage: _currentTab != TabItem.profile,
                 child: ProfileNavigator(
                   navigatorKey: _navigatorKeys[TabItem.profile],
+                  userId: widget.id,
                 ),
               ),
             ]),

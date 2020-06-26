@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/UI/helpers/AuthenticationPageMixin.dart';
 import 'package:social/UI/helpers/curved_painter.dart';
 import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/screens/login.dart';
 import 'package:social/UI/widgets/button.dart';
 import 'package:social/bloc/register_bloc/register_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterState extends State<Register> with AuthenticationPageMixin {
   final _formKey = GlobalKey<FormState>();
   RegisterBloc bloc;
   TextEditingController email, name, password, passwordConfirmation;
@@ -30,66 +29,9 @@ class _RegisterState extends State<Register> {
     passwordConfirmation = TextEditingController();
   }
 
-  String _emailValidator(value) {
-    if (RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    ).hasMatch(
-      value.trim(),
-    )) return null;
-    return 'email not valid';
-  }
-
-  String _nameValidator(String value) {
-    if (value.trim().length < 4) {
-      return 'length must be at least 4';
-    }
-    if (RegExp(r"^[A-Za-z][A-Za-z0-9]{4,31}$").hasMatch(value.trim())) {
-      return null;
-    }
-    return 'name not valid (only characters and numbers are allowed)';
-  }
-
-  String _passwordValidator(String value) {
-    if (value.trim().length < 6) {
-      return 'password must be at least 6 characters';
-    }
-    return null;
-  }
-
-  String _passwordConfirmationValidator(String value) {
-    if (value.trim() != password.text.trim()) {
-      return 'passwords does not match!';
-    }
-    return null;
-  }
-
-  showAlert(error) {
-    Alert(
-      closeFunction: () {},
-      context: context,
-      type: AlertType.error,
-      title: "Error!",
-      desc: "$error.",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "Retry",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          width: 120,
-        )
-      ],
-    ).show();
-  }
-
-  Future setPreferences(RegisterSuccess state) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt('id', state.user.id);
-    prefs.setString('name', state.user.name);
-    prefs.setString('email', state.user.email);
-    prefs.setString('imageUrl', state.user.imageUrl);
-  }
+  checkPasswords(String value) {
+    return passwordConfirmationValidator(value, password.text.trim());
+  }  
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +42,7 @@ class _RegisterState extends State<Register> {
           bloc: bloc,
           listener: (context, state) async {
             if (state is RegisterError) {
-              showAlert(state.error);
+              showAlert(state.error, context);
             } else if (state is RegisterSuccess) {
               await setPreferences(state);
               Navigator.pushReplacement(
@@ -160,7 +102,7 @@ class _RegisterState extends State<Register> {
                                 child: Column(
                                   children: <Widget>[
                                     TextFormField(
-                                      validator: _emailValidator,
+                                      validator: emailValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
@@ -173,7 +115,7 @@ class _RegisterState extends State<Register> {
                                       height: 10,
                                     ),
                                     TextFormField(
-                                      validator: _nameValidator,
+                                      validator: nameValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
@@ -187,7 +129,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                     TextFormField(
                                       obscureText: true,
-                                      validator: _passwordValidator,
+                                      validator: passwordValidator,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {
@@ -201,7 +143,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                     TextFormField(
                                       obscureText: true,
-                                      validator: _passwordConfirmationValidator,
+                                      validator: (value) => checkPasswords(value),
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
                                       onChanged: (value) {

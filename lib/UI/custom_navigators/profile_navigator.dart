@@ -4,9 +4,10 @@ import 'package:social/UI/screens/post_detail.dart';
 import 'package:social/UI/screens/profile.dart';
 
 class ProfileNavigator extends StatelessWidget {
-  ProfileNavigator({@required this.navigatorKey})
+  ProfileNavigator({@required this.navigatorKey, @required this.userId})
       : assert(navigatorKey != null);
   final GlobalKey<NavigatorState> navigatorKey;
+  final userId;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class ProfileNavigator extends StatelessWidget {
         String name = settings.name;
         switch (name) {
           case '/':
-            return MaterialPageRoute(builder: (_) => ProfilePage(userId: 1,));
+            return MaterialPageRoute(builder: (_) => ProfilePage(userId: userId));
             break;
           case '/post':
             if(settings.arguments != null) {

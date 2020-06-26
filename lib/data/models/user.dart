@@ -11,8 +11,8 @@ class UserModel {
     @required this.imageUrl,
   });
 
-  final int id, followers, following, createdAt;
-  final String name, email, imageUrl;
+  final int id, followers, following;
+  final String name, email, imageUrl, createdAt;
 
   static UserModel fromJson(user) {
     return UserModel(

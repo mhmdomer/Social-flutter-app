@@ -32,7 +32,7 @@ class PostItem extends StatelessWidget {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/profile', arguments: 1);
+                    Navigator.pushNamed(context, '/profile', arguments: post.user['id']);
                   },
                   child: Row(
                     children: <Widget>[

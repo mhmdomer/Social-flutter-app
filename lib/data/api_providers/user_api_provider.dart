@@ -8,7 +8,7 @@ import 'package:social/data/models/user.dart';
 
 class UserApiProvider extends BaseProvider {
 
-  createUser(credentials) async {
+  Future<UserModel> createUser(credentials) async {
     final dio = Dio();
     dio.options.headers['Accept'] = 'application/json';
     try {
@@ -17,7 +17,7 @@ class UserApiProvider extends BaseProvider {
         final token = response.data['access_token'];
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString('token', token);
-        return UserModel.fromJson(response.data);
+        return UserModel.fromJson(response.data['user']);
       } else {
         throw response.data['message'];
       }
@@ -37,12 +37,11 @@ class UserApiProvider extends BaseProvider {
     dio.options.headers['Accept'] = 'application/json';
     try {
       final response = await dio.post('$baseUrl/login', data: credentials);
-      print(response.data);
       if (response.statusCode == 200) {
         final token = response.data['access_token'];
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString('token', token);
-        return UserModel.fromJson(response.data);
+        return UserModel.fromJson(response.data['user']);
       } else {
         throw response.data['message'];
       }
@@ -60,7 +59,7 @@ class UserApiProvider extends BaseProvider {
   Future<UserModel> getUser(id) async {
     final response = await client.get('$baseUrl/users/$id');
     if (response.statusCode == 200) {
-      return UserModel.fromJson(response.data);
+      return UserModel.fromJson(response.data['data']);
     } else {
       throw response.data['message'];
     }

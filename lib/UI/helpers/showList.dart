@@ -58,7 +58,6 @@ Widget showCommentList(ScrollableListState state) {
     );
   }
   if (state is ListLoaded) {
-    print(state.data);
     if (state.data['list'].isEmpty) {
       return Center(child: Text('No comments yet!'));
     } else {

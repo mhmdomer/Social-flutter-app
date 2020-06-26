@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:social/UI/constants.dart';
-import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/UI/helpers/curved_painter.dart';
+import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/screens/register.dart';
 import 'package:social/UI/widgets/button.dart';
 import 'package:social/bloc/login_bloc/login_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -63,6 +64,14 @@ class _LoginState extends State<Login> {
     ).show();
   }
 
+  Future setPreferences(LoginSuccess state) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('id', state.user.id);
+    prefs.setString('name', state.user.name);
+    prefs.setString('email', state.user.email);
+    prefs.setString('imageUrl', state.user.imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -70,12 +79,22 @@ class _LoginState extends State<Login> {
       child: Scaffold(
         body: BlocConsumer(
           bloc: bloc,
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is LoginError) {
               showAlert(state.error);
             } else if (state is LoginSuccess) {
+              await setPreferences(state);
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => HomePage()));
+                context,
+                MaterialPageRoute(
+                  builder: (_) => HomePage(
+                    id: state.user.id,
+                    userName: state.user.name,
+                    email: state.user.email,
+                    imageUrl: state.user.imageUrl,
+                  ),
+                ),
+              );
             }
           },
           buildWhen: (previous, current) => current is! LoginSuccess,
@@ -153,7 +172,6 @@ class _LoginState extends State<Login> {
                                       color: mediumBlue,
                                       onPress: () {
                                         if (_formKey.currentState.validate()) {
-                                          print(email.text.trim() + ' ' + password.text.trim());
                                           final credentials = {
                                             'email': email.text.trim(),
                                             'password': password.text.trim()

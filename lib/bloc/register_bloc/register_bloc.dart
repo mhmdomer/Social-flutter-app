@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:social/data/models/user.dart';
 import 'package:social/data/repositories/users_repository.dart';
 
 part 'register_event.dart';
@@ -17,8 +18,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     if (event is RegisterSubmitted) {
       yield RegisterLoading();
       try {
-        await repository.registerUser(event.credentials);
-        yield RegisterSuccess();
+        final user = await repository.registerUser(event.credentials);
+        yield RegisterSuccess(user: user);
       } catch (e) {
         yield* showError(e);
       }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social/data/api_providers/user_api_provider.dart';
 import 'package:social/data/models/user.dart';
-import 'package:social/data/repositories/users_repository.dart';
 
 class ProfileBloc extends Bloc {
-  final repository = UsersRepository();
+  final provider = UserApiProvider();
   @override
   get initialState => ProfileInitial();
 
@@ -12,7 +12,7 @@ class ProfileBloc extends Bloc {
   Stream<ProfileState> mapEventToState(event) async* {
     if(event is LoadProfile) {
       try {
-        final user = await repository.getUser(event.id);
+        final user = await provider.getUser(event.id);
         yield ProfileLoaded(user: user);
       } catch(e) {
         print(e);

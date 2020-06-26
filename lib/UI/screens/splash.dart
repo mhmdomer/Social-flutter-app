@@ -9,7 +9,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -20,12 +19,28 @@ class _SplashScreenState extends State<SplashScreen> {
     final preferences = await SharedPreferences.getInstance();
     final token = preferences.getString('token');
     await Future.delayed(Duration(seconds: 1));
-    if(token == null || token == '') {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Welcome()));
+    if (token == null || token == '') {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => Welcome()));
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
+      final id = preferences.getInt('id');
+      final name = preferences.getString('name');
+      final email = preferences.getString('email');
+      final imageUrl = preferences.getString('imageUrl');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomePage(
+            id: id,
+            userName: name,
+            email: email,
+            imageUrl: imageUrl,
+          ),
+        ),
+      );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

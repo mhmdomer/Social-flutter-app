@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:social/data/models/user.dart';
 import 'package:social/data/repositories/users_repository.dart';
 
 part 'login_event.dart';
@@ -17,8 +18,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is LoginSubmitted) {
       yield LoginLoading();
       try {
-        await repository.loginUser(event.credentials);
-        yield LoginSuccess();
+        final user = await repository.loginUser(event.credentials);
+        yield LoginSuccess(user: user);
       } catch (e) {
         yield* showError(e);
       }
@@ -27,8 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> showError(e) async* {
     if(e is String) {
-      yield LoginError(error: e);
-      return;
+      yield LoginError(error: e.toString());
     }
     final errors = e['errors'];
     if (errors != null) {

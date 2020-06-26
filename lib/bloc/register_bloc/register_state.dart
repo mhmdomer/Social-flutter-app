@@ -12,4 +12,7 @@ class RegisterError extends RegisterState {
   final error;
 }
 
-class RegisterSuccess extends RegisterState {}
+class RegisterSuccess extends RegisterState {
+  RegisterSuccess({@required this.user});
+  final UserModel user;
+}

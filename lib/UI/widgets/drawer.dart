@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
+import 'package:social/bloc/user_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MyDrawer extends StatelessWidget {
+  MyDrawer({@required this.userBloc});
+  final UserBloc userBloc;
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text('Username'),
-            accountEmail: Text('email@email.com'),
+            accountName: Text(userBloc.name),
+            accountEmail: Text(userBloc.email),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage('assets/avatar1.jpg'),
+              backgroundImage: userBloc.imageUrl == null
+                  ? AssetImage('assets/avatar1.jpg')
+                  : CachedNetworkImage(
+                      imageUrl: userBloc.imageUrl,
+                    ),
             ),
             decoration: BoxDecoration(color: mediumBlue),
           ),

@@ -14,7 +14,7 @@ class Comment extends StatelessWidget {
         children: <Widget>[
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/profile', arguments: 1);
+              Navigator.pushNamed(context, '/profile', arguments: comment.user['id']);
             },
             child: CircleAvatar(
               radius: 20,

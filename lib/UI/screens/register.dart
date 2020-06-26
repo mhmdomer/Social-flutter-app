@@ -9,6 +9,7 @@ import 'package:social/UI/screens/home.dart';
 import 'package:social/UI/screens/login.dart';
 import 'package:social/UI/widgets/button.dart';
 import 'package:social/bloc/register_bloc/register_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -82,6 +83,14 @@ class _RegisterState extends State<Register> {
     ).show();
   }
 
+  Future setPreferences(RegisterSuccess state) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('id', state.user.id);
+    prefs.setString('name', state.user.name);
+    prefs.setString('email', state.user.email);
+    prefs.setString('imageUrl', state.user.imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -89,12 +98,22 @@ class _RegisterState extends State<Register> {
       child: Scaffold(
         body: BlocConsumer(
           bloc: bloc,
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is RegisterError) {
               showAlert(state.error);
             } else if (state is RegisterSuccess) {
+              await setPreferences(state);
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => HomePage()));
+                context,
+                MaterialPageRoute(
+                  builder: (_) => HomePage(
+                    id: state.user.id,
+                    userName: state.user.name,
+                    email: state.user.email,
+                    imageUrl: state.user.imageUrl,
+                  ),
+                ),
+              );
             }
           },
           buildWhen: (previous, current) => current is! RegisterSuccess,

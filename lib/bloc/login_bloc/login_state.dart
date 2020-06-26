@@ -12,4 +12,7 @@ class LoginError extends LoginState {
   final error;
 }
 
-class LoginSuccess extends LoginState {}
+class LoginSuccess extends LoginState {
+  LoginSuccess({@required this.user});
+  final UserModel user;
+}

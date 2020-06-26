@@ -9,6 +9,7 @@ import 'package:social/UI/widgets/follow_count.dart';
 import 'package:social/bloc/profile_bloc.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:social/data/api_providers/api_constants.dart';
 import 'package:social/data/api_providers/base_list_provider.dart';
 import 'package:social/data/models/post.dart';
@@ -111,8 +112,12 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(25),
-                                          child:
-                                              Image.asset('assets/avatar1.jpg'),
+                                          child: state.user.imageUrl == null
+                                              ? Image.asset(
+                                                  'assets/avatar1.jpg')
+                                              : CachedNetworkImage(
+                                                  imageUrl: state.user.imageUrl,
+                                                ),
                                         ),
                                         decoration: BoxDecoration(
                                           boxShadow: [
@@ -134,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                             ],
                           ),
                           Text(
-                            'Username',
+                            state.user.name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -143,8 +148,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'this is the bio this is the bio this is the bio this is the bio this is the bio this is the bio',
+                            child: Text( 'testing bio',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.grey),
                             ),
@@ -155,14 +159,14 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 FollowCount(
-                                  count: 1200,
+                                  count: state.user.followers,
                                   title: 'Followers',
                                 ),
                                 SizedBox(
                                   width: 20,
                                 ),
                                 FollowCount(
-                                  count: 200,
+                                  count: state.user.following,
                                   title: 'Following',
                                 )
                               ],

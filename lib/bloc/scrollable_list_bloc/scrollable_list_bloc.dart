@@ -30,7 +30,6 @@ class ScrollableListBloc
   Stream<ScrollableListState> mapEventToState(
       ScrollableListEvent event) async* {
     final currentState = state;
-    print(_hasReachedMax(currentState));
     if (event is LoadList && !_hasReachedMax(currentState)) {
       try {
         var list = [];

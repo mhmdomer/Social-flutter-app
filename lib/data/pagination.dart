@@ -26,7 +26,6 @@ class Paginator {
           return data;
         }
       } on DioError catch (e) {
-        print(e);
         throw e.toString();
       }
     } else {}

@@ -4,10 +4,10 @@ import 'package:social/data/models/user.dart';
 class UsersRepository {
   final _provider = UserApiProvider();
 
-  registerUser(credentials) => _provider.createUser(credentials);
+  Future<UserModel> registerUser(credentials) async => await _provider.createUser(credentials);
 
-  loginUser(credentials) => _provider.loginUser(credentials);
+  Future<UserModel> loginUser(credentials) async => await _provider.loginUser(credentials);
 
-  Future<UserModel> getUser(id) => _provider.getUser(id);
+  Future<UserModel> getUser(id) async => await _provider.getUser(id);
   
 }

@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social/UI/constants.dart';
 import 'package:social/UI/helpers/loading_indicator.dart';
 import 'package:social/UI/helpers/profile_clipper.dart';
 import 'package:social/UI/helpers/scrollable_list_mixin.dart';
 import 'package:social/UI/helpers/showList.dart';
 import 'package:social/UI/screens/home.dart';
+import 'package:social/UI/widgets/button.dart';
 import 'package:social/UI/widgets/follow_count.dart';
+import 'package:social/bloc/follow_bloc/follow_bloc.dart';
 import 'package:social/bloc/profile_bloc.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:social/bloc/user_bloc.dart';
 import 'package:social/data/api_providers/api_constants.dart';
 import 'package:social/data/api_providers/base_list_provider.dart';
 import 'package:social/data/models/post.dart';
 import 'package:social/data/pagination.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.userId});
@@ -24,6 +29,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
   ProfileBloc _profileBloc;
+  FollowBloc _followBloc;
+  bool following, clicked;
+  int addedFollowCount = 0;
   @override
   initState() {
     super.initState();
@@ -34,6 +42,40 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
           listFromJson: PostModel.listFromJson),
     )..add(LoadList());
     initScrollableList();
+    _followBloc = FollowBloc();
+  }
+
+  Widget buildButton(state, followed) {
+    print('building button');
+    if (state is FollowSuccess) {
+      // TODO let the button handle the follower count
+      following = state.isFollowing;
+      if (clicked)
+        Future.delayed(Duration(milliseconds: 1)).then((value) => setState(() {
+              following && !followed
+                  ? addedFollowCount = 1
+                  : addedFollowCount = 0;
+            }));
+      clicked = false;
+    }
+    return Button(
+      text: following ? 'Following' : 'Follow',
+      color: following ? mediumBlue : Colors.grey,
+      onPress: state is FollowLoading
+          ? null
+          : () {
+              clicked = true;
+              _followBloc.add(
+                following
+                    ? UnFollowUser(userId: widget.userId)
+                    : FollowUser(
+                        userId: widget.userId,
+                      ),
+              );
+            },
+      height: 0,
+      width: 50,
+    );
   }
 
   @override
@@ -48,6 +90,9 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
         BlocProvider(
           create: (context) => _profileBloc,
         ),
+        BlocProvider(
+          create: (context) => _followBloc,
+        ),
       ],
       child: BlocListener<ScrollToTopBloc, ScrollToTopState>(
         listener: (context, state) {
@@ -57,6 +102,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
         },
         child: RefreshIndicator(
           onRefresh: () {
+            addedFollowCount = 0;
             _profileBloc.add(LoadProfile(id: widget.userId));
             bloc.add(RefreshList());
             return completerFuture();
@@ -68,22 +114,23 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                 BlocConsumer(
                   bloc: _profileBloc,
                   listener: (context, state) {
-                    if (state is ListLoaded) {
-                      completeCompleter();
+                    if (state is ProfileLoaded) {
+                      following = state.user.followed;
                     }
                   },
-                  builder: (context, state) {
-                    if (state is ProfileInitial) {
+                  builder: (context, profileState) {
+                    if (profileState is ProfileInitial) {
                       return Center(
                         child: getLoadingIndicator(),
                       );
                     }
-                    if (state is ProfileError) {
+                    if (profileState is ProfileError) {
                       return Center(
-                        child: Text(state.error),
+                        child: Text(profileState.error),
                       );
                     }
-                    if (state is ProfileLoaded) {
+                    if (profileState is ProfileLoaded) {
+                      following = profileState.user.followed;
                       return Column(
                         children: <Widget>[
                           Stack(
@@ -112,12 +159,14 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(25),
-                                          child: state.user.imageUrl == null
-                                              ? Image.asset(
-                                                  'assets/avatar1.jpg')
-                                              : CachedNetworkImage(
-                                                  imageUrl: state.user.imageUrl,
-                                                ),
+                                          child:
+                                              profileState.user.imageUrl == null
+                                                  ? Image.asset(
+                                                      'assets/avatar1.jpg')
+                                                  : CachedNetworkImage(
+                                                      imageUrl: profileState
+                                                          .user.imageUrl,
+                                                    ),
                                         ),
                                         decoration: BoxDecoration(
                                           boxShadow: [
@@ -139,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                             ],
                           ),
                           Text(
-                            state.user.name,
+                            profileState.user.name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -148,7 +197,8 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: Text( 'testing bio',
+                            child: Text(
+                              'testing bio',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.grey),
                             ),
@@ -159,17 +209,47 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 FollowCount(
-                                  count: state.user.followers,
+                                  count: profileState.user.followers +
+                                      addedFollowCount,
                                   title: 'Followers',
                                 ),
                                 SizedBox(
                                   width: 20,
                                 ),
                                 FollowCount(
-                                  count: state.user.following,
+                                  count: profileState.user.following,
                                   title: 'Following',
-                                )
+                                ),
                               ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: BlocBuilder<UserBloc, UserState>(
+                              builder: (context, state) {
+                                if (state is UserFetched &&
+                                    state.id != widget.userId)
+                                  return BlocConsumer(
+                                    listener: (context, state) {
+                                      if (state is FollowError) {
+                                        Fluttertoast.showToast(
+                                          msg: state.error,
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0,
+                                        );
+                                      }
+                                    },
+                                    bloc: _followBloc,
+                                    builder: (context, state) {
+                                      return buildButton(
+                                          state, profileState.user.followed);
+                                    },
+                                  );
+                                return Container(width: 0, height: 0);
+                              },
                             ),
                           ),
                           SizedBox(

@@ -10,17 +10,17 @@ class ProfileBloc extends Bloc {
 
   @override
   Stream<ProfileState> mapEventToState(event) async* {
-    if(event is LoadProfile) {
+    if (event is LoadProfile) {
       try {
         final user = await provider.getUser(event.id);
+        print(event.id);
         yield ProfileLoaded(user: user);
-      } catch(e) {
+      } catch (e) {
         print(e);
         yield ProfileError(error: e);
       }
     }
   }
-
 }
 
 abstract class ProfileState {}

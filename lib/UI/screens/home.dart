@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
             ]),
-            drawer: MyDrawer(userBloc: userBloc),
+            drawer: MyDrawer(),
           ),
         ),
       ),

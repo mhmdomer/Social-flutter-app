@@ -7,7 +7,6 @@ import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/user.dart';
 
 class UserApiProvider extends BaseProvider {
-
   Future<UserModel> createUser(credentials) async {
     final dio = Dio();
     dio.options.headers['Accept'] = 'application/json';
@@ -22,9 +21,10 @@ class UserApiProvider extends BaseProvider {
         throw response.data['message'];
       }
     } on DioError catch (e) {
-      if(e.response != null) {
+      if (e.response != null) {
         throw e.response.data['errors'];
-      } else if(e.error is SocketException) {
+      } else if (e.error is SocketException) {
+        print(e.error);
         throw 'Check Your internet connection and try again!';
       } else {
         throw 'Sorry Something went wrong!';
@@ -45,10 +45,10 @@ class UserApiProvider extends BaseProvider {
       } else {
         throw response.data['message'];
       }
-    } on DioError catch(e) {
-      if(e.response != null) {
+    } on DioError catch (e) {
+      if (e.response != null) {
         throw e.response.data;
-      } else if(e.error is SocketException) {
+      } else if (e.error is SocketException) {
         throw 'Check Your internet connection and try again!';
       } else {
         throw 'Sorry Something went wrong!';

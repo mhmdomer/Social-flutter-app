@@ -16,13 +16,12 @@ void main() {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: mediumBlue,
-          accentColor: cornflowerBlue,
-          backgroundColor: greyBlue,
-          cardColor: cornflowerBlue,
-          buttonColor: cornflowerBlue,
-          fontFamily: 'Mont'
-        ),
+            primaryColor: mediumBlue,
+            accentColor: cornflowerBlue,
+            backgroundColor: greyBlue,
+            cardColor: cornflowerBlue,
+            buttonColor: cornflowerBlue,
+            fontFamily: 'Mont'),
         home: SplashScreen(),
       ),
     ),

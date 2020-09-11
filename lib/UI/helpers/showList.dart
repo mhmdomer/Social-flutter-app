@@ -18,7 +18,11 @@ Widget showPostList(ScrollableListState state) {
   }
   if (state is ListLoaded) {
     if (state.data['list'].isEmpty) {
-      return Center(child: Text('No posts yet!'));
+      return ListView(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: [Center(child: Text('No posts yet!'))],
+      );
     } else {
       return ListView.builder(
         physics: NeverScrollableScrollPhysics(),

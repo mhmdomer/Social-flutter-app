@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/data/models/notification.dart';
 
-enum NotificationType { likedYourPost, commentedOnYourPost, likedYourComment }
+enum NotificationType { likedYourPost, commentedOnYourPost, likedYourComment, followedYou }
 
 class NotificationItem extends StatelessWidget {
   NotificationItem({@required this.notification});
@@ -59,6 +59,8 @@ class NotificationItem extends StatelessWidget {
         break;
       case NotificationType.likedYourComment:
         return 'liked your comment';
+      case NotificationType.followedYou:
+        return 'followed you';
         break;
       default:
         return '';
@@ -74,6 +76,9 @@ class NotificationItem extends StatelessWidget {
         break;
       case NotificationType.commentedOnYourPost:
         return Icon(Icons.comment);
+        break;
+      case NotificationType.followedYou:
+        return Icon(Icons.group_add);
         break;
       default:
         return Icon(Icons.thumb_up);

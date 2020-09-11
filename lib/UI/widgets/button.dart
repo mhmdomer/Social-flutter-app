@@ -4,19 +4,26 @@ class Button extends StatelessWidget {
   final String text;
   final Color color;
   final Function onPress;
-  Button({@required this.text, @required this.color, @required this.onPress});
+  final double height, width;
+  Button({
+    @required this.text,
+    @required this.color,
+    @required this.onPress,
+    this.height,
+    this.width,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 0),
       child: Material(
         elevation: 5.0,
         color: color,
-        borderRadius: BorderRadius.circular(30.0),
+        borderRadius: BorderRadius.circular(10.0),
         child: MaterialButton(
           onPressed: onPress,
-          minWidth: 200.0,
-          height: 42.0,
+          minWidth: width ?? 200.0,
+          height: height ?? 42.0,
           child: Text(
             text,
             style: TextStyle(color: Colors.white),

@@ -3,7 +3,6 @@ import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/post.dart';
 
 class PostApiProvider extends BaseProvider {
-
   Future<PostModel> getPost(id) async {
     final response = await client.get('$baseUrl/posts/$id');
     if (response.statusCode == 200) {
@@ -41,6 +40,7 @@ class PostApiProvider extends BaseProvider {
   }
 
   Future<bool> favoritePost(id) async {
+    print('$baseUrl/posts/$id/favorite');
     final response = await client.post('$baseUrl/posts/$id/favorite');
     if (response.statusCode == 200) {
       return true;
@@ -50,7 +50,7 @@ class PostApiProvider extends BaseProvider {
   }
 
   Future<bool> unFavoritePost(id) async {
-    final response = await client.delete('$baseUrl/posts/$id/un_favorite');
+    final response = await client.post('$baseUrl/posts/$id/un_favorite');
     if (response.statusCode == 200) {
       return true;
     } else {

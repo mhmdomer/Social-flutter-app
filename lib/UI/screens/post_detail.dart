@@ -21,7 +21,6 @@ class PostDetails extends StatefulWidget {
 }
 
 class _PostDetailsState extends State<PostDetails> with ScrollableListMixin {
-
   @override
   initState() {
     super.initState();
@@ -43,25 +42,19 @@ class _PostDetailsState extends State<PostDetails> with ScrollableListMixin {
           return Column(
             children: <Widget>[
               Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    await Future.delayed(Duration(seconds: 2));
-                    return Completer().future;
-                  },
-                  child: SingleChildScrollView(
-                    controller: getScrollController(),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: PostItem(
-                            clickable: false,
-                            post: widget.post,
-                          ),
+                child: SingleChildScrollView(
+                  controller: getScrollController(),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: 10),
+                        child: PostItem(
+                          clickable: false,
+                          post: widget.post,
                         ),
-                        showCommentList(state),
-                      ],
-                    ),
+                      ),
+                      showCommentList(state),
+                    ],
                   ),
                 ),
               ),

@@ -12,14 +12,16 @@ class PostModel {
     @required this.commentCount,
     @required this.user,
     @required this.category,
+    @required this.createdAt,
   });
 
-  final int id, userId, categoryId, favoriteCount, commentCount;
-  final bool isFavorited;
-  final String body, imageUrl;
+  int id, userId, categoryId, favoriteCount, commentCount;
+  bool isFavorited;
+  final String body, imageUrl, createdAt;
   final user, category;
 
   static PostModel fromJson(post) {
+    print(post);
     return PostModel(
       id: post['id'],
       userId: post['user_id'],
@@ -31,23 +33,27 @@ class PostModel {
       commentCount: post['commentCount'],
       user: post['user'],
       category: post['category'],
+      createdAt: post['created_at'],
     );
   }
 
   static List listFromJson(posts) {
-    return posts.map(
-      (post) => PostModel(
-        id: post['id'],
-        userId: post['user_id'],
-        categoryId: post['category_id'],
-        body: post['body'],
-        imageUrl: post['image'],
-        isFavorited: post['isFavorited'] != 0,
-        favoriteCount: post['favoriteCount'],
-        commentCount: post['commentCount'],
-        user: post['user'],
-        category: post['category'],
-      ),
-    ).toList();
+    return posts
+        .map(
+          (post) => PostModel(
+            id: post['id'],
+            userId: post['user_id'],
+            categoryId: post['category_id'],
+            body: post['body'],
+            imageUrl: post['image'],
+            isFavorited: post['isFavorited'] != 0,
+            favoriteCount: post['favoriteCount'],
+            commentCount: post['commentCount'],
+            user: post['user'],
+            category: post['category'],
+            createdAt: post['created_at'],
+          ),
+        )
+        .toList();
   }
 }

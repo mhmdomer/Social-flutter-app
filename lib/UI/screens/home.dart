@@ -10,7 +10,11 @@ import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/user_bloc.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({@required this.id, @required this.userName, @required this.email, @required this.imageUrl});
+  HomePage(
+      {@required this.id,
+      @required this.userName,
+      @required this.email,
+      @required this.imageUrl});
   final String userName, email, imageUrl;
   final int id;
   @override
@@ -54,6 +58,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Future<bool> _onWillPop() async {
+    print('test');
     final isFirstRouteInCurrentTab =
         !await _navigatorKeys[_currentTab].currentState.maybePop();
     if (isFirstRouteInCurrentTab) {

@@ -3,11 +3,12 @@ import 'package:social/data/api_providers/base_provider.dart';
 import 'package:social/data/models/comment.dart';
 
 class CommentApiProvider extends BaseProvider {
-  Future<CommentModel> addComment(postId, data) async {
-    final response =
-        await client.post('$baseUrl/posts/$postId/comments', data: data);
+  Future<CommentModel> addComment(postId, comment) async {
+    final response = await client
+        .post('$baseUrl/posts/$postId/comments', data: {'body': comment});
     if (response.statusCode == 200) {
-      return CommentModel.fromJson(response.data);
+      print(response.data['data']);
+      return CommentModel.fromJson(response.data['data']);
     } else {
       throw response.data['message'];
     }

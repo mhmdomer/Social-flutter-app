@@ -18,7 +18,6 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> with ScrollableListMixin {
-
   @override
   void initState() {
     super.initState();

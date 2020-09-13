@@ -64,6 +64,8 @@ class Comment extends StatelessWidget {
                       return Row(
                         children: [
                           IconButton(
+                            splashRadius: 1.0,
+                            padding: EdgeInsets.all(0),
                             icon: Icon(
                               Icons.thumb_up,
                               color: isFavorited ? Colors.blue : Colors.grey,

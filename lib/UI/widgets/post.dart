@@ -120,6 +120,7 @@ class PostItem extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       IconButton(
+                          splashRadius: 1.0,
                           icon: Icon(
                             Icons.thumb_up,
                             color: isFavorited ? cornflowerBlue : Colors.grey,
@@ -136,6 +137,7 @@ class PostItem extends StatelessWidget {
                                   );
                                 }),
                       IconButton(
+                        splashRadius: 1.0,
                         icon: Icon(
                           Icons.mode_comment,
                           color: Colors.grey,

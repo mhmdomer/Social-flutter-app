@@ -15,8 +15,8 @@ class NotificationsPage extends StatefulWidget {
   _NotificationsPageState createState() => _NotificationsPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> with ScrollableListMixin {
-
+class _NotificationsPageState extends State<NotificationsPage>
+    with ScrollableListMixin {
   @override
   initState() {
     super.initState();
@@ -50,7 +50,7 @@ class _NotificationsPageState extends State<NotificationsPage> with ScrollableLi
                 listener: (context, state) {
                   if (state is ScrolledToTop &&
                       state.item == TabItem.notifications) {
-                        animateScroll();
+                    animateScroll();
                   }
                 },
                 child: SingleChildScrollView(

@@ -4,18 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:social/UI/constants.dart';
 import 'package:social/data/models/notification.dart';
 
-enum NotificationType { likedYourPost, commentedOnYourPost, likedYourComment, followedYou }
+enum NotificationType {
+  likedYourPost,
+  commentedOnYourPost,
+  likedYourComment,
+  followedYou,
+}
 
 class NotificationItem extends StatelessWidget {
   NotificationItem({@required this.notification});
   final NotificationModel notification;
   @override
   Widget build(BuildContext context) {
+    if (notification.type == NotificationType.followedYou) print(notification);
     return Container(
       color: [cornflowerBlue, Colors.transparent][Random().nextInt(2)],
       child: ListTile(
         onTap: () {
-          Navigator.pushNamed(context, '/post', arguments: notification.post);
+          if (notification.type == NotificationType.followedYou) {
+            Navigator.pushNamed(context, '/profile',
+                arguments: notification.user['id']);
+          } else {
+            Navigator.pushNamed(context, '/post', arguments: notification.post);
+          }
         },
         leading: CircleAvatar(
           radius: 30,

@@ -16,18 +16,20 @@ class PostsNavigator extends StatelessWidget {
       initialRoute: '/',
       onGenerateRoute: (settings) {
         String name = settings.name;
-        switch(name){
+        switch (name) {
           case '/':
             return MaterialPageRoute(builder: (_) => PostsPage());
             break;
           case '/post':
-            if(settings.arguments != null) {
-              return MaterialPageRoute(builder: (_) => PostDetails(post: settings.arguments));
+            if (settings.arguments != null) {
+              return MaterialPageRoute(
+                  builder: (_) => PostDetails(post: settings.arguments));
             }
             break;
           case '/photo':
-            if(settings.arguments is String) {
-              return MaterialPageRoute(builder: (_) => PhotoViewer(imageUrl: settings.arguments));
+            if (settings.arguments is String) {
+              return MaterialPageRoute(
+                  builder: (_) => PhotoViewer(imageUrl: settings.arguments));
             }
             break;
           case '/add_post':
@@ -35,7 +37,8 @@ class PostsNavigator extends StatelessWidget {
             break;
           case '/profile':
             if (settings.arguments is int) {
-              return MaterialPageRoute(builder: (_) => ProfilePage(userId: settings.arguments));
+              return MaterialPageRoute(
+                  builder: (_) => ProfilePage(userId: settings.arguments));
             }
             break;
           default:

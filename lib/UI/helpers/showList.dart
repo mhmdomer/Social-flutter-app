@@ -5,6 +5,8 @@ import 'package:social/UI/widgets/notification.dart';
 import 'package:social/UI/widgets/post.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
 
+// TODO: refactor this ugly file
+
 Widget showPostList(ScrollableListState state) {
   if (state is ScrollableListInitial || state is ListLoading) {
     return Center(

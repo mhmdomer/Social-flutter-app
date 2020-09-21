@@ -7,7 +7,6 @@ class CommentApiProvider extends BaseProvider {
     final response = await client
         .post('$baseUrl/posts/$postId/comments', data: {'body': comment});
     if (response.statusCode == 200) {
-      print(response.data['data']);
       return CommentModel.fromJson(response.data['data']);
     } else {
       throw response.data['message'];

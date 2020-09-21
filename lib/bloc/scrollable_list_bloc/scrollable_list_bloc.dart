@@ -41,7 +41,6 @@ class ScrollableListBloc
         yield ListLoaded(data: data);
       } catch (e) {
         yield ListError(error: e);
-        print(e);
       }
     }
     if (event is RefreshList) {

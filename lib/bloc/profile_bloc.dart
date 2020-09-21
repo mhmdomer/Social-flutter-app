@@ -13,10 +13,8 @@ class ProfileBloc extends Bloc {
     if (event is LoadProfile) {
       try {
         final user = await provider.getUser(event.id);
-        print(event.id);
         yield ProfileLoaded(user: user);
       } catch (e) {
-        print(e);
         yield ProfileError(error: e);
       }
     }

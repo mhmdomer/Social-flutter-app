@@ -46,7 +46,6 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
   }
 
   Widget buildButton(state, followed) {
-    print('building button');
     if (state is FollowSuccess) {
       // TODO let the button handle the follower count
       following = state.isFollowing;
@@ -134,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                       return Column(
                         children: <Widget>[
                           Stack(
-                            overflow: Overflow.visible,
+                            // overflow: Overflow.visible,
                             children: <Widget>[
                               ClipPath(
                                 clipper: ProfileClipper(),
@@ -274,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                   builder: (context, state) {
                     return Container(
                       padding: EdgeInsets.only(left: 10),
-                      child: showPostList(state),
+                      child: showList(state, ScrollableType.posts),
                     );
                   },
                 ),

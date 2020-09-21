@@ -56,7 +56,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   controller: getScrollController(),
-                  child: showNotificationsList(state),
+                  child: showList(state, ScrollableType.notifications),
                 ),
               ),
             ),

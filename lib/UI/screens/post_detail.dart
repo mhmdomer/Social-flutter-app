@@ -90,7 +90,7 @@ class _PostDetailsState extends State<PostDetails> with ScrollableListMixin {
                             children: newComments,
                           ),
                         ),
-                        showCommentList(state),
+                        showList(state, ScrollableType.comments),
                       ],
                     ),
                   ),
@@ -102,9 +102,7 @@ class _PostDetailsState extends State<PostDetails> with ScrollableListMixin {
                   listener: (context, state) {
                     if (state is AddCommentSuccess) {
                       commentTextController.text = '';
-                    } else if (state is AddCommentError) {
-                      print(state.error);
-                    }
+                    } else if (state is AddCommentError) {}
                   },
                   builder: (context, state) => Row(
                     children: <Widget>[

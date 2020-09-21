@@ -21,7 +21,6 @@ class PostModel {
   final user, category;
 
   static PostModel fromJson(post) {
-    print(post);
     return PostModel(
       id: post['id'],
       userId: post['user_id'],

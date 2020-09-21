@@ -58,7 +58,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Future<bool> _onWillPop() async {
-    print('test');
     final isFirstRouteInCurrentTab =
         !await _navigatorKeys[_currentTab].currentState.maybePop();
     if (isFirstRouteInCurrentTab) {

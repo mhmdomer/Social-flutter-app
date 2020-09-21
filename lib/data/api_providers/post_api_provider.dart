@@ -40,7 +40,6 @@ class PostApiProvider extends BaseProvider {
   }
 
   Future<bool> favoritePost(id) async {
-    print('$baseUrl/posts/$id/favorite');
     final response = await client.post('$baseUrl/posts/$id/favorite');
     if (response.statusCode == 200) {
       return true;

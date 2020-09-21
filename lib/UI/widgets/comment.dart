@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social/UI/constants.dart';
 import 'package:social/bloc/like_bloc/like_bloc.dart';
 import 'package:social/data/models/comment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,7 +69,7 @@ class Comment extends StatelessWidget {
                             padding: EdgeInsets.all(0),
                             icon: Icon(
                               Icons.thumb_up,
-                              color: isFavorited ? Colors.blue : Colors.grey,
+                              color: isFavorited ? cornflowerBlue : Colors.grey,
                             ),
                             onPressed: state is LikeLoading
                                 ? null

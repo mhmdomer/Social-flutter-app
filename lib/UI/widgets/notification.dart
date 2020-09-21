@@ -16,7 +16,6 @@ class NotificationItem extends StatelessWidget {
   final NotificationModel notification;
   @override
   Widget build(BuildContext context) {
-    if (notification.type == NotificationType.followedYou) print(notification);
     return Container(
       color: [cornflowerBlue, Colors.transparent][Random().nextInt(2)],
       child: ListTile(

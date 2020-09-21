@@ -52,7 +52,6 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
       }
       yield LikeSuccess(liked: false);
     } catch (e) {
-      print(e);
       yield LikeError(error: e);
     }
   }

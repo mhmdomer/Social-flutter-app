@@ -24,7 +24,6 @@ class UserApiProvider extends BaseProvider {
       if (e.response != null) {
         throw e.response.data['errors'];
       } else if (e.error is SocketException) {
-        print(e.error);
         throw 'Check Your internet connection and try again!';
       } else {
         throw 'Sorry Something went wrong!';

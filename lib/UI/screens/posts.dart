@@ -69,9 +69,7 @@ class _PostsPageState extends State<PostsPage> with ScrollableListMixin {
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     controller: getScrollController(),
-                    child: showPostList(
-                      state,
-                    ),
+                    child: showList(state, ScrollableType.posts),
                   ),
                 ),
               ),

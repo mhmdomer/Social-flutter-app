@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> with ScrollableListMixin {
                                   width: width,
                                   height: height * 0.4,
                                   child: Image.asset(
-                                    'assets/post3.jpg',
+                                    'assets/hero.jpg',
                                     fit: BoxFit.fill,
                                   ),
                                 ),

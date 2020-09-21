@@ -5,6 +5,8 @@ import 'package:social/UI/constants.dart';
 import 'package:social/UI/helpers/scrollable_list_mixin.dart';
 import 'package:social/UI/helpers/showList.dart';
 import 'package:social/UI/screens/home.dart';
+import 'package:social/UI/widgets/story.dart';
+import 'package:social/UI/widgets/text_field.dart';
 import 'package:social/bloc/scroll_to_top_bloc.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
 import 'package:social/data/api_providers/api_constants.dart';
@@ -69,7 +71,46 @@ class _PostsPageState extends State<PostsPage> with ScrollableListMixin {
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     controller: getScrollController(),
-                    child: showList(state, ScrollableType.posts),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 20, bottom: 10, left: 5, right: 5),
+                          child: Row(
+                            children: [
+                              Expanded(child: CustomTextField()),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin:
+                              EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                          child: Text(
+                            'Stories',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 200,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: getStories(),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 14),
+                          child: Divider(
+                            height: 4,
+                            color: Colors.black,
+                          ),
+                        ),
+                        showList(state, ScrollableType.posts),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -78,5 +119,25 @@ class _PostsPageState extends State<PostsPage> with ScrollableListMixin {
         },
       ),
     );
+  }
+
+  List<Widget> getStories() {
+    return [
+      Story(
+        image: 'assets/stories/story1.jpg',
+      ),
+      Story(
+        image: 'assets/stories/story2.jpg',
+      ),
+      Story(
+        image: 'assets/stories/story3.jpg',
+      ),
+      Story(
+        image: 'assets/stories/story4.jpg',
+      ),
+      Story(
+        image: 'assets/stories/story5.jpg',
+      ),
+    ];
   }
 }

@@ -38,6 +38,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/stories/
+
   fonts:
     - family: Mont
       fonts:

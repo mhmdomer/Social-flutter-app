@@ -4,14 +4,13 @@ import 'package:social/UI/widgets/comment.dart';
 import 'package:social/UI/widgets/notification.dart';
 import 'package:social/UI/widgets/post.dart';
 import 'package:social/bloc/scrollable_list_bloc/scrollable_list_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 enum ScrollableType { posts, notifications, comments }
 
 Widget showList(ScrollableListState state, ScrollableType type) {
   if (state is ScrollableListInitial || state is ListLoading) {
-    return Center(
-      child: getLoadingIndicator(),
-    );
+    return shimmerList(type: type);
   }
   if (state is ListError) {
     return Center(
@@ -66,6 +65,47 @@ Widget getItemFromType({ScrollableType type, ListLoaded state, int index}) {
       return NotificationItem(
         notification: state.data['list'][index],
       );
+      break;
+    default:
+  }
+}
+
+Widget shimmerList({ScrollableType type}) {
+  return Shimmer.fromColors(
+    baseColor: Colors.grey[300],
+    highlightColor: Colors.grey[100],
+    enabled: true,
+    child: ListView.builder(
+      itemCount: 20,
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (_, __) => Padding(
+        padding: const EdgeInsets.only(bottom: 18.0, right: 10, left: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          width: double.infinity,
+          height: getShimmerHeight(type),
+        ),
+      ),
+    ),
+  );
+}
+
+double getShimmerHeight(ScrollableType type) {
+  switch (type) {
+    case ScrollableType.posts:
+      return 150;
+      break;
+    case ScrollableType.comments:
+      return 50;
+      break;
+    case ScrollableType.notifications:
+      return 50;
       break;
     default:
   }

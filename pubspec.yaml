@@ -31,6 +31,7 @@ dev_dependencies:
   http: ^0.12.1
   rxdart: ^0.24.1
   cached_network_image: ^2.2.0+1
+  shimmer: ^1.1.1
 
 flutter:
   uses-material-design: true

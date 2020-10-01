@@ -27,7 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
       final name = preferences.getString('name');
       final email = preferences.getString('email');
       final imageUrl = preferences.getString('imageUrl');
-      print('navigating');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

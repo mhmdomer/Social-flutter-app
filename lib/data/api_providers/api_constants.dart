@@ -1,4 +1,6 @@
-const baseUrl = 'http://phplaravel-430765-1350704.cloudwaysapps.com/api/v1';
+import 'secret.dart';
+
+const baseUrl = serverUrl;
 const postListUrl = '$baseUrl/posts';
 const notificationListUrl = '$baseUrl/notifications';
 

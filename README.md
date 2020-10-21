@@ -1,16 +1,23 @@
 # social
 
-A new Flutter project.
+Simple flutter social application powered with laravel api.
 
-## Getting Started
+> the backend repo [here](https://github.com/m7md3omer/social-backend-laravel)
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- authentication system
+- image upload
+- follow and unfollow people to customize your news feed
+- commenting and liking others posts
+- notification system
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Screenshots
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_1603287288](https://user-images.githubusercontent.com/39973541/96729894-ed872f00-13b5-11eb-946a-0e7a434593e8.png)
+
+![Screenshot_1603287308](https://user-images.githubusercontent.com/39973541/96729974-01cb2c00-13b6-11eb-8ecd-f34b34169514.png)
+
+![Screenshot_1603287301](https://user-images.githubusercontent.com/39973541/96729996-0859a380-13b6-11eb-8841-1700fbbf18cd.png)
+
+![Screenshot_1603287330](https://user-images.githubusercontent.com/39973541/96730026-10b1de80-13b6-11eb-8108-327dfb56ac82.png)
